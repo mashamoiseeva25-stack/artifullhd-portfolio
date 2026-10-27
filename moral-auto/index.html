@@ -194,6 +194,7 @@ section{padding-block:clamp(72px,10vw,130px)}
 .hud{position:absolute;left:18px;top:16px;right:18px;display:flex;justify-content:space-between;gap:12px;pointer-events:none;flex-wrap:wrap}
 .hud b{font:700 clamp(16px,2vw,22px)/1.2 var(--display)}
 .hud span{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--neon);padding:9px 12px;border:1px solid rgba(95,184,255,.4);border-radius:999px;background:rgba(4,6,10,.6);align-self:flex-start}
+.map-flag{position:absolute;left:18px;bottom:14px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none}
 .legs{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;list-style:none;padding:0;font-size:14px;color:var(--muted)}
 .legs li{display:flex;gap:10px;align-items:center;transition:color .4s}
 .legs li i{width:8px;height:8px;border-radius:50%;border:1px solid rgba(95,184,255,.5);transition:background .4s,box-shadow .4s}
@@ -364,7 +365,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="wrap">
       <div class="head reveal">
         <span class="eyebrow">Откуда везём</span>
-        <h2>Четыре рынка, один ответственный за сделку</h2>
+        <h2>Везём из четырёх стран</h2>
         <p>Ищем машину под ваш запрос там, где она выгоднее. Сроки указаны от оплаты до прибытия в Москву.</p>
       </div>
       <div class="countries">
@@ -382,7 +383,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="head reveal">
         <span class="eyebrow">Маршрут</span>
         <h2>Как едет ваша машина</h2>
-        <p>Выберите страну: покажем путь автомобиля от покупки до Москвы.</p>
+        <p>Выберите страну и посмотрите, как машина едет к вам: от покупки до выдачи в Москве.</p>
       </div>
       <div class="tabs" role="tablist" aria-label="Страна">
         <button class="tab" role="tab" data-r="kr" aria-selected="true">Корея</button>
@@ -401,9 +402,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <g class="car-dot" id="rCar"><circle class="halo" r="12"/><circle class="core" r="4.5"/></g>
         </svg>
         <div class="hud"><b id="rTitle">Корея → Москва</b><span id="rDays">в пути от 30 дней</span></div>
+        <div class="map-flag">Маршрут условный</div>
       </div>
       <ol class="legs" id="rLegs"></ol>
-      <p class="price-note">Маршрут показан схематично: конкретную логистику подбираем под машину и сроки.</p>
+      <p class="price-note">Карта условная и не показывает реальный путь. Маршрут каждой машины свой: логистику подбираем под конкретный автомобиль и сроки.</p>
     </div>
   </section>
 
@@ -676,8 +678,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   document.querySelectorAll('[data-count]').forEach(function(el){
     if(reduce) return;
     var end = +el.dataset.count, suf = el.dataset.suffix || '', done = false;
-    var o = new IntersectionObserver(function(es){ if(es[0].isIntersecting && !done){ done = true; var t = performance.now();
-      (function f(n){ var k = Math.min(1,(n-t)/1400); el.textContent = Math.round(end*(1-Math.pow(1-k,3))) + suf; if(k<1) requestAnimationFrame(f); })(t); } });
+    el.textContent = '0' + suf;
+    var o = new IntersectionObserver(function(es){ if(es[0].isIntersecting && !done){ done = true; var t = performance.now() + 250;
+      (function f(n){ var k = Math.max(0, Math.min(1,(n-t)/2000)); el.textContent = Math.round(end*(1-Math.pow(1-k,3))) + suf; if(k<1) requestAnimationFrame(f); })(performance.now()); } }, {threshold:1, rootMargin:'0px 0px -12% 0px'});
     o.observe(el);
   });
 
@@ -786,12 +789,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     var title = document.getElementById('rTitle'), days = document.getElementById('rDays'), legs = document.getElementById('rLegs');
     var tabs = document.querySelectorAll('.tab');
     var X = function(lon){ return (lon + 128) * 10; }, Y = function(lat){ return (74 - lat) * 12.5; };
+    // illustrative only: start country, a soft arc, Moscow. Real logistics differ per car.
     var ROUTES = {
-      kr: {t:'Корея → Москва', d:'в пути от 30 дней', p:[[129.04,35.1,'Пусан','выкуп и погрузка на судно'],[130.6,38.9],[131.9,43.1,'Владивосток','порт, приёмка машины'],[135.1,48.5],[127.5,50.3],[113.5,52,'Транссиб','автовоз или ж/д'],[104.3,52.3],[82.9,55],[60.6,56.8],[37.62,55.75,'Москва','таможня, учёт и выдача']]},
-      cn: {t:'Китай → Москва', d:'в пути от 30 дней', p:[[116.4,39.9,'Пекин','выкуп у дилера'],[117.2,45],[117.4,49.6,'Забайкальск','граница и оформление'],[113.5,52],[104.3,52.3,'Сибирь','автовоз или ж/д'],[82.9,55],[60.6,56.8],[37.62,55.75,'Москва','таможня, учёт и выдача']]},
-      eu: {t:'Европа → Москва', d:'в пути от 45 дней', p:[[10,50.5,'Европа','проверка и выкуп'],[17,52.2],[24,53.4,'Граница','транзит и документы'],[31,54.6],[37.62,55.75,'Москва','таможня, учёт и выдача']]},
-      us: {t:'США → Москва', d:'в пути от 60 дней', p:[[-74.1,40.7,'США','аукцион или дилер, порт'],[-52,43.5],[-28,47,'Атлантика','морем через океан'],[-6,49],[5,54.5],[14,55.6],[21.1,55.7,'Порт в Европе','разгрузка и транзит'],[29,55.4],[37.62,55.75,'Москва','таможня, учёт и выдача']]}
+      kr: {t:'Корея → Москва', d:'в пути от 30 дней', a:[127.8,36.5,'Корея'], bend:.16},
+      cn: {t:'Китай → Москва', d:'в пути от 30 дней', a:[112,34,'Китай'], bend:.16},
+      eu: {t:'Европа → Москва', d:'в пути от 45 дней', a:[9,49.5,'Европа'], bend:.22},
+      us: {t:'США → Москва', d:'в пути от 60 дней', a:[-97,39,'США'], bend:.2}
     };
+    var MSK = [37.62,55.75];
+    var LEGS = ['Покупка и проверка','Доставка','Таможня и выдача в Москве'];
     var BASE = {x:0, y:0, w:2760, h:750};
     function smooth(pts){ // Catmull-Rom to cubic Bezier
       var d = 'M' + pts[0][0] + ' ' + pts[0][1];
@@ -817,32 +823,31 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       pinEls.forEach(function(pe){ pe.el.setAttribute('transform', 'translate(' + pe.x + ' ' + pe.y + ') scale(' + s.toFixed(3) + ')'); });
       car.setAttribute('transform', car.dataset.t + ' scale(' + s.toFixed(3) + ')');
     }
-    function overview(){ var xs = cur.pts.map(function(q){return q[0];}), ys = cur.pts.map(function(q){return q[1];}); return fit(Math.min.apply(0,xs), Math.min.apply(0,ys), Math.max.apply(0,xs), Math.max.apply(0,ys), aspect() < 1.2 ? .12 : .1); }
+    function overview(){ var xs = cur.pts.map(function(q){return q[0];}), ys = cur.pts.map(function(q){return q[1];}); return fit(Math.min.apply(0,xs), Math.min.apply(0,ys), Math.max.apply(0,xs), Math.max.apply(0,ys), aspect() < 1.2 ? .16 : .14); }
     function moscow(){ var c = cur.pts[cur.pts.length-1], w = 360, h = w / aspect(); if(h > 220){ h = 220; w = h * aspect(); } return {x: c[0] - w*.5, y: c[1] - h*.5, w: w, h: h}; }
     function build(id){
-      var R = ROUTES[id];
-      cur = {id:id, pts: R.p.map(function(q){ return [X(q[0]), Y(q[1])]; })};
+      var R = ROUTES[id], A = [X(R.a[0]), Y(R.a[1])], B = [X(MSK[0]), Y(MSK[1])];
+      var dx = B[0]-A[0], dy = B[1]-A[1], len0 = Math.hypot(dx, dy), nx = dy/len0, ny = -dx/len0;
+      if(ny > 0){ nx = -nx; ny = -ny; } // bow the arc northwards
+      var M = [(A[0]+B[0])/2 + nx*len0*R.bend, (A[1]+B[1])/2 + ny*len0*R.bend];
+      cur = {id:id, pts:[A, M, B]};
       var d = smooth(cur.pts);
       track.setAttribute('d', d); trail.setAttribute('d', d);
       L = trail.getTotalLength();
       trail.style.strokeDasharray = L + ' ' + L; trail.style.strokeDashoffset = L;
-      // length at each labelled stop
       stops = []; pinsG.innerHTML = ''; pinEls = []; legs.innerHTML = ''; legEls = [];
-      var tmp = document.createElementNS('http://www.w3.org/2000/svg','path'); svg.appendChild(tmp);
-      R.p.forEach(function(q, i){
-        if(!q[2]) return;
-        tmp.setAttribute('d', smooth(cur.pts.slice(0, i+1).length > 1 ? cur.pts.slice(0, i+1) : [cur.pts[0], cur.pts[0]]));
-        var at = i === 0 ? 0 : tmp.getTotalLength();
+      var lab = function(pt, name, sub, left){
         var g = document.createElementNS('http://www.w3.org/2000/svg','g'); g.setAttribute('class','pin');
-        var right = !(i === R.p.length - 1 && id !== 'us') ;
-        var xs = cur.pts.map(function(q){ return q[0]; }), mnx = Math.min.apply(0, xs), mxx = Math.max.apply(0, xs);
-        var last = i === R.p.length - 1;
-        var tx = (last ? cur.pts[i-1][0] > cur.pts[i][0] : (cur.pts[i][0] - mnx) / Math.max(1, mxx - mnx) > .62) ? -12 : 12, anchor = tx < 0 ? 'end' : 'start';
-        g.innerHTML = '<circle class="ring" r="5"/><circle class="c" r="5"/><text x="' + tx + '" y="-4" text-anchor="' + anchor + '">' + q[2] + '</text><text class="sub" x="' + tx + '" y="12" text-anchor="' + anchor + '">' + q[3] + '</text>';
-        pinsG.appendChild(g); pinEls.push({el:g, x:cur.pts[i][0], y:cur.pts[i][1]});
-        stops.push(at);
-        var li = document.createElement('li'); li.innerHTML = '<i></i><span><b>' + q[2] + '</b> · ' + q[3] + '</span>'; legs.appendChild(li); legEls.push(li);
-      });
+        var tx = left ? -12 : 12, an = left ? 'end' : 'start';
+        g.innerHTML = '<circle class="ring" r="5"/><circle class="c" r="5"/><text x="' + tx + '" y="-4" text-anchor="' + an + '">' + name + '</text><text class="sub" x="' + tx + '" y="12" text-anchor="' + an + '">' + sub + '</text>';
+        pinsG.appendChild(g); pinEls.push({el:g, x:pt[0], y:pt[1]});
+      };
+      lab(A, R.a[2], 'покупка', A[0] < B[0]); lab(B, 'Москва', 'выдача', A[0] > B[0]);
+      // pins light at start and finish; the three generic legs light along the way
+      var pinAt = [0, L];
+      LEGS.forEach(function(t, i){ stops.push(L * i / (LEGS.length - 1)); var li = document.createElement('li'); li.innerHTML = '<i></i><span>' + t + '</span>'; legs.appendChild(li); legEls.push(li); });
+      cur.pinAt = pinAt;
+      var tmp = document.createElementNS('http://www.w3.org/2000/svg','path'); svg.appendChild(tmp);
       tmp.remove();
       title.textContent = R.t; days.textContent = R.d;
       tabs.forEach(function(b){ b.setAttribute('aria-selected', b.dataset.r === id ? 'true' : 'false'); });
@@ -852,7 +857,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       if(reduce){ trail.style.strokeDashoffset = 0; moveCar(L); light(L); }
     }
     function moveCar(len){ var pt = trail.getPointAtLength(len); car.dataset.t = 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')'; car.setAttribute('transform', car.dataset.t + ' scale(' + k().toFixed(3) + ')'); }
-    function light(len){ stops.forEach(function(at, i){ var on = len >= at - 1; pinEls[i].el.classList.toggle('lit', on); legEls[i].classList.toggle('lit', on); }); }
+    function light(len){ stops.forEach(function(at, i){ legEls[i].classList.toggle('lit', len >= at - 1); }); cur.pinAt.forEach(function(at, i){ pinEls[i].el.classList.toggle('lit', len >= at - 1); }); }
     var ease = function(x){ return x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3)/2; };
     var lerp = function(a, b, t){ return {x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t, w:a.w+(b.w-a.w)*t, h:a.h+(b.h-a.h)*t}; };
     var DUR = 6500, ZOOM = 2000, HOLD = 2600;
