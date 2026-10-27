@@ -138,6 +138,30 @@ section{padding-block:clamp(72px,10vw,130px)}
 @media(max-width:480px){.c-list{grid-template-columns:1fr}}
 
 /* reels */
+.sold-top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px}
+.sold-nav{display:flex;gap:10px;flex:none}
+.sold-arr{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--fg);display:grid;place-items:center;cursor:pointer;transition:border-color .3s,box-shadow .3s,color .3s}
+.sold-arr:hover{border-color:rgba(95,184,255,.6);color:var(--neon-hot);box-shadow:0 0 22px rgba(31,116,255,.35)}
+.sold-arr:disabled{opacity:.3;pointer-events:none}
+.sold-strip{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px max(var(--gut-l),calc((100vw - 1240px)/2 + var(--gut-l))) 24px;scroll-padding-inline:max(var(--gut-l),calc((100vw - 1240px)/2 + var(--gut-l)))}
+.sold-strip::-webkit-scrollbar{display:none}
+.sold-card{flex:0 0 clamp(270px,28vw,360px);scroll-snap-align:start;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--bg-2);transition:border-color .4s,box-shadow .4s,transform .4s}
+.sold-card:hover{border-color:rgba(95,184,255,.55);box-shadow:0 0 0 1px rgba(95,184,255,.15),0 18px 50px rgba(31,116,255,.22);transform:translateY(-4px)}
+.sold-ph{position:relative;aspect-ratio:4/3;overflow:hidden}
+.sold-ph img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) brightness(.92);transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .5s}
+.sold-card:hover .sold-ph img{transform:scale(1.05);filter:none}
+.sold-ph::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(4,6,10,.75));pointer-events:none}
+.sold-badge{position:absolute;right:14px;top:14px;z-index:1;font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:8px 11px;border-radius:999px;background:rgba(4,6,10,.6);border:1px solid rgba(95,184,255,.45);color:var(--neon-hot);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sold-badge::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--neon-hot);box-shadow:0 0 8px var(--neon-hot);margin-right:8px;vertical-align:1px}
+.sold-body{padding:20px 22px 22px;display:grid;gap:8px}
+.sold-t{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.sold-t b{font-weight:600;font-size:17px;line-height:1.25}
+.sold-t i{font:400 13px/1 var(--mono);font-style:normal;color:var(--muted);flex:none}
+.sold-spec{color:var(--muted);font-size:14px}
+.sold-price{font:500 15px/1 var(--mono);letter-spacing:.04em;color:var(--fg);margin-top:6px;padding-top:14px;border-top:1px solid var(--line)}
+.sold-more{flex:0 0 220px;scroll-snap-align:start;border:1px dashed rgba(95,184,255,.35);border-radius:22px;display:grid;place-content:center;justify-items:center;gap:16px;text-align:center;color:var(--muted);font-size:15px;line-height:1.4;transition:color .3s,border-color .3s,box-shadow .3s}
+.sold-more:hover{color:var(--neon-hot);border-color:rgba(95,184,255,.7);box-shadow:0 0 30px rgba(31,116,255,.2) inset}
+@media(max-width:760px){.sold-nav{display:none}.sold-card{flex-basis:80%}.sold-more{flex-basis:60%}}
 .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .reel{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:9/16;max-width:100%;background:var(--bg-2);border:1px solid var(--line);cursor:pointer}
 .reel video{width:100%;height:100%;object-fit:cover;display:block}
@@ -322,7 +346,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap">
     <a class="brand" href="#top">MORAL <b>AUTO</b></a>
     <nav class="links" aria-label="Разделы">
-      <a href="#route">Маршрут</a><a href="#calc">Расчёт</a><a href="#services">Услуги</a><a href="#sell">Продажа</a><a href="#video">Видео</a><a href="#reviews">Отзывы</a><a href="#faq">Вопросы</a>
+      <a href="#route">Маршрут</a><a href="#calc">Расчёт</a><a href="#services">Услуги</a><a href="#sell">Продажа</a><a href="#video">Видео</a><a href="#sold">Продано</a><a href="#reviews">Отзывы</a><a href="#faq">Вопросы</a>
     </nav>
     <a class="btn btn-primary btn-sm" href="https://t.me/imoscowbear" target="_blank" rel="noopener">Связаться</a>
   </div>
@@ -519,6 +543,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-rangerover.mp4.jpg" src="video/reel-rangerover.mp4"></video><span class="tag">Тренды</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Range Rover</b><span>Короткий ролик в трендовом формате</span></figcaption></figure>
       </div>
     </div>
+  </section>
+
+  <section id="sold" style="padding-top:0">
+    <div class="wrap">
+      <div class="sold-top">
+        <div class="head reveal" style="margin-bottom:0">
+          <span class="eyebrow">Недавно продали</span>
+          <h2>Эти машины уже у владельцев</h2>
+          <p>Несколько сделок из нашего Telegram-канала. Новые машины в наличии публикуем там же.</p>
+        </div>
+        <div class="sold-nav"><button type="button" class="sold-arr" data-d="-1" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><button type="button" class="sold-arr" data-d="1" aria-label="Вперёд"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+      </div>
+    </div>
+    <div class="sold-strip reveal" id="soldStrip"><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2411.webp" alt="Mercedes-Benz GLS 2024" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Mercedes-Benz GLS</b><i>2024</i></div><span class="sold-spec">3.0 бензин · 394 л.с.</span><span class="sold-price">15 000 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2185.webp" alt="BMW X7 40d 2022" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>BMW X7 40d</b><i>2022</i></div><span class="sold-spec">дизель · 340 л.с. · 33 000 км</span><span class="sold-price">13 000 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2074.webp" alt="Toyota Land Cruiser 300 2021" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Toyota Land Cruiser 300</b><i>2021</i></div><span class="sold-spec">3.3 дизель · 299 л.с. · 40 000 км</span><span class="sold-price">10 500 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2340.webp" alt="Mercedes-Benz GLE 450 2019" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Mercedes-Benz GLE 450</b><i>2019</i></div><span class="sold-spec">3.0 бензин · 367 л.с.</span><span class="sold-price">7 000 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s1923.webp" alt="Mercedes-Benz S500 Coupé 2015" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Mercedes-Benz S500 Coupé</b><i>2015</i></div><span class="sold-spec">4.7 бензин · 455 л.с. · 45 000 км</span><span class="sold-price">6 700 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2045.webp" alt="Mercedes-Benz V-класс 4MATIC 2020" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Mercedes-Benz V-класс 4MATIC</b><i>2020</i></div><span class="sold-spec">2.1 дизель · 190 л.с. · 96 000 км</span><span class="sold-price">6 350 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2479.webp" alt="Range Rover Autobiography 2014" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Range Rover Autobiography</b><i>2014</i></div><span class="sold-spec">4.4 дизель · Vogue SE</span><span class="sold-price">4 900 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2095.webp" alt="Audi Q8 2019" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Audi Q8</b><i>2019</i></div><span class="sold-spec">3.0 бензин · 340 л.с.</span><span class="sold-price">4 250 000 ₽</span></div></article><article class="sold-card"><div class="sold-ph"><img src="img/sold/s2144.webp" alt="Porsche Macan GTS 2016" loading="lazy" decoding="async" width="800" height="600"><span class="sold-badge">Продан</span></div><div class="sold-body"><div class="sold-t"><b>Porsche Macan GTS</b><i>2016</i></div><span class="sold-spec">3.0 бензин · 360 л.с. · 106 000 км</span><span class="sold-price">3 900 000 ₽</span></div></article><a class="sold-more" href="https://t.me/moral_auto" target="_blank" rel="noopener"><span>Все машины<br>в Telegram-канале</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </section>
 
   <section id="steps" style="padding-top:0">
@@ -982,5 +1020,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     function selectIt(){ var r = document.createRange(); r.selectNodeContents(ch.firstChild); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
   });
 })();
+
+(function(){const st=document.getElementById('soldStrip');if(!st)return;const bs=document.querySelectorAll('.sold-arr');
+const upd=()=>{bs[0].disabled=st.scrollLeft<8;bs[1].disabled=st.scrollLeft+st.clientWidth>st.scrollWidth-8};
+bs.forEach(b=>b.addEventListener('click',()=>{const c=st.querySelector('.sold-card');st.scrollBy({left:(c.offsetWidth+20)*+b.dataset.d,behavior:'smooth'})}));
+st.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();})();
 </script>
 </body></html>
