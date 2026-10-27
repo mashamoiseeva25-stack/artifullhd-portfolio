@@ -106,7 +106,7 @@ section{padding-block:clamp(72px,10vw,130px)}
 .country .flag{font:500 12px/1 var(--mono);letter-spacing:.18em;color:var(--neon)}
 .country h3{font-size:26px}
 .country .days{font:700 20px/1 var(--display);color:var(--fg)}
-.country .days small{display:block;font:400 13px/1.4 var(--body);color:var(--muted);margin-top:6px}
+.country .days small{display:block;font:500 14px/1.45 var(--body);color:#c6d2e3}
 .country p{color:var(--muted);font-size:15px}
 .price-note{margin-top:18px;color:var(--muted);font-size:14px}
 @media(max-width:980px){.countries{grid-template-columns:1fr 1fr}}
@@ -376,15 +376,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="head reveal">
         <span class="eyebrow">Откуда везём</span>
         <h2>Везём из четырёх стран</h2>
-        <p>Ищем машину под ваш запрос там, где она выгоднее. Сроки указаны от оплаты до прибытия в Москву.</p>
+        <p>Ищем машину под ваш запрос там, где она выгоднее.</p>
       </div>
       <div class="countries">
-        <article class="country reveal spot"><span class="flag">KR · Корея</span><h3>Корея</h3><div class="days">от 30 дней<small>Hyundai, Kia, Genesis и европейские авто с корейского рынка</small></div><p>Прозрачная история обслуживания и пробега по базам.</p></article>
-        <article class="country reveal spot"><span class="flag">CN · Китай</span><h3>Китай</h3><div class="days">от 30 дней<small>Zeekr, Li Auto, Geely, Haval, Tank и другие</small></div><p>Новые машины от дилеров и почти новые с минимальным пробегом.</p></article>
-        <article class="country reveal spot"><span class="flag">EU · Европа</span><h3>Европа</h3><div class="days">от 45 дней<small>BMW, Mercedes-Benz, Audi, Porsche, Land Rover</small></div><p>Проверка на месте до покупки, полный пакет документов.</p></article>
-        <article class="country reveal spot"><span class="flag">US · США</span><h3>США</h3><div class="days">от 60 дней<small>Пикапы, внедорожники, премиум</small></div><p>Аукционы и дилеры. Подбираем лоты без скрытых повреждений.</p></article>
+        <article class="country reveal spot"><span class="flag">KR · Корея</span><h3>Корея</h3><div class="days"><small>Hyundai, Kia, Genesis и европейские авто с корейского рынка</small></div><p>Прозрачная история обслуживания и пробега по базам.</p></article>
+        <article class="country reveal spot"><span class="flag">CN · Китай</span><h3>Китай</h3><div class="days"><small>Zeekr, Li Auto, Geely, Haval, Tank и другие</small></div><p>Новые машины от дилеров и почти новые с минимальным пробегом.</p></article>
+        <article class="country reveal spot"><span class="flag">EU · Европа</span><h3>Европа</h3><div class="days"><small>BMW, Mercedes-Benz, Audi, Porsche, Land Rover</small></div><p>Проверка на месте до покупки, полный пакет документов.</p></article>
+        <article class="country reveal spot"><span class="flag">US · США</span><h3>США</h3><div class="days"><small>Пикапы, внедорожники, премиум</small></div><p>Аукционы и дилеры. Подбираем лоты без скрытых повреждений.</p></article>
       </div>
-      <p class="price-note">Стоимость под ключ считаем под конкретную машину: цена, доставка, таможня и учёт одной суммой.</p>
+      <p class="price-note">Стоимость и сроки под ключ считаем под конкретную машину и обсуждаем лично.</p>
     </div>
   </section>
 
@@ -412,7 +412,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <g id="rPins"></g>
           <g class="car-dot" id="rCar"><g class="car-rot"><path class="beam" d="M10 -3 L46 -14 L46 14 L10 3 Z"/><circle class="halo" r="16"/><rect class="body" x="-13" y="-6.5" width="26" height="13" rx="5"/><rect class="glass" x="2" y="-5" width="6" height="10" rx="2"/><rect class="glass" x="-9" y="-4.5" width="4" height="9" rx="1.5"/><rect class="lamp" x="11.5" y="-5.5" width="2" height="3" rx="1"/><rect class="lamp" x="11.5" y="2.5" width="2" height="3" rx="1"/><rect class="tail" x="-13.5" y="-5" width="1.6" height="3" rx=".8"/><rect class="tail" x="-13.5" y="2" width="1.6" height="3" rx=".8"/></g></g>
         </svg>
-        <div class="hud"><b id="rTitle">Корея → Москва</b><span id="rDays">в пути от 30 дней</span></div>
+        <div class="hud"><b id="rTitle">Корея → Москва</b></div>
         <div class="map-flag">Маршрут условный</div>
       </div>
       <ol class="legs" id="rLegs"></ol>
@@ -452,11 +452,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <input type="range" id="cHp" min="70" max="600" step="5" value="150"></div>
         </form>
         <aside class="calc-out" aria-live="polite">
-          <span class="eyebrow">Итого под ключ, примерно</span>
+          <span class="eyebrow">Машина и таможня, примерно</span>
           <div class="total" id="oTotal">0 ₽</div>
           <dl class="rows">
             <div><dt>Автомобиль</dt><dd id="oCar"></dd></div>
-            <div><dt>Доставка до Москвы</dt><dd id="oDel"></dd></div>
+            <div><dt>Доставка до Москвы</dt><dd>обсудим лично</dd></div>
             <div><dt>Таможенная пошлина</dt><dd id="oDuty"></dd></div>
             <div><dt>Таможенное оформление</dt><dd id="oFee"></dd></div>
             <div><dt>Утильсбор</dt><dd id="oUtil"></dd></div>
@@ -564,10 +564,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
       <div class="faq">
         <details class="reveal"><summary>Как оформляется сделка?<i></i></summary><p>Работаем официально, по договору. В нём фиксируем автомобиль, итоговую стоимость и сроки, поэтому все условия понятны заранее.</p></details>
-        <details class="reveal"><summary>Сколько ждать машину?<i></i></summary><p>Ориентиры от оплаты до Москвы: Корея и Китай от 30 дней, Европа от 45, США от 60. Точный срок называем при расчёте конкретной машины.</p></details>
+        <details class="reveal"><summary>Сколько ждать машину?<i></i></summary><p>Срок зависит от страны, конкретной машины и логистики. Называем его, когда подберём автомобиль, и фиксируем в договоре.</p></details>
         <details class="reveal"><summary>Что входит в цену «под ключ»?<i></i></summary><p>Стоимость автомобиля, доставка до Москвы, таможенные платежи, утильсбор и оформление. Считаем одной суммой.</p></details>
         <details class="reveal"><summary>Можно проверить машину до покупки?<i></i></summary><p>Да. Проверяем состояние и историю автомобиля до сделки и присылаем фото и отчёт. Решение о покупке принимаете вы.</p></details>
-        <details class="reveal"><summary>Как узнать, где сейчас машина?<i></i></summary><p>Держим в курсе на каждом этапе: выкуп, отправка, граница, таможня, прибытие. Все вопросы решаем в Telegram.</p></details>
+        <details class="reveal"><summary>Как узнать, где сейчас машина?<i></i></summary><p>Держим в курсе на каждом этапе и присылаем фото и статус: выкуп, отправка, таможня, прибытие. Все вопросы решаем в Telegram.</p></details>
         <details class="reveal"><summary>Поможете продать мою текущую машину?<i></i></summary><p>Да, берём её на комиссионную продажу за 3%: оценка, подготовка, показы и оформление сделки.</p></details>
       </div>
     </div>
@@ -802,10 +802,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     var X = function(lon){ return (lon + 128) * 10; }, Y = function(lat){ return (74 - lat) * 12.5; };
     // illustrative only: start country, a soft arc, Moscow. Real logistics differ per car.
     var ROUTES = {
-      kr: {t:'Корея → Москва', d:'в пути от 30 дней', a:[127.8,36.5,'Корея'], bend:.16},
-      cn: {t:'Китай → Москва', d:'в пути от 30 дней', a:[112,34,'Китай'], bend:.16},
-      eu: {t:'Европа → Москва', d:'в пути от 45 дней', a:[9,49.5,'Европа'], bend:.22},
-      us: {t:'США → Москва', d:'в пути от 60 дней', a:[-97,39,'США'], bend:.2}
+      kr: {t:'Корея → Москва', a:[127.8,36.5,'Корея'], bend:.16},
+      cn: {t:'Китай → Москва', a:[112,34,'Китай'], bend:.16},
+      eu: {t:'Европа → Москва', a:[9,49.5,'Европа'], bend:.22},
+      us: {t:'США → Москва', a:[-97,39,'США'], bend:.2}
     };
     var MSK = [37.62,55.75];
     var LEGS = ['Покупка и проверка','Доставка','Таможня и выдача в Москве'];
@@ -861,7 +861,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       document.querySelectorAll('.m-hl').forEach(function(h){ h.classList.toggle('on', h.dataset.hl === id); });
       var tmp = document.createElementNS('http://www.w3.org/2000/svg','path'); svg.appendChild(tmp);
       tmp.remove();
-      title.textContent = R.t; days.textContent = R.d;
+      title.textContent = R.t;
       tabs.forEach(function(b){ b.setAttribute('aria-selected', b.dataset.r === id ? 'true' : 'false'); });
       box.classList.remove('zoomed');
       setVB(overview()); moveCar(0);
@@ -907,7 +907,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   (function(){
     var CFG = {
       eur: 92,                                                       // ₽ за €, обновить при запуске
-      delivery: {kr: 250000, cn: 200000, eu: 350000, us: 450000},    // типовая доставка до Москвы, ₽ (уточнить у заказчика)
       under3: [[8500,.54,2.5],[16700,.48,3.5],[42300,.48,5.5],[84500,.48,7.5],[169000,.48,15],[Infinity,.48,20]], // до € стоимости: % и минимум €/см³
       y3to5: [[1000,1.5],[1500,1.7],[1800,2.5],[2300,2.7],[3000,3],[Infinity,3.6]],   // €/см³
       over5: [[1000,3],[1500,3.2],[1800,3.5],[2300,4.8],[3000,5],[Infinity,5.7]],
@@ -927,15 +926,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       var P = +price.value, cc = Math.round(+eng.value * 1000), H = +hp.value, pe = P / CFG.eur, duty;
       if(age === 0){ var t = pick(CFG.under3, pe); duty = Math.max(pe * t[1], cc * t[2]) * CFG.eur; }
       else duty = cc * pick(age === 1 ? CFG.y3to5 : CFG.over5, cc)[1] * CFG.eur;
-      var fee = pick(CFG.fee, P)[1], del = CFG.delivery[c];
+      var fee = pick(CFG.fee, P)[1];
       var util = (H <= 160 && cc <= 3000) ? CFG.util[age === 0 ? 0 : 1] : null;
-      var total = P + del + duty + fee + (util || 0);
+      var total = P + duty + fee + (util || 0);
       o('oPrice').textContent = rub(P); o('oEng').textContent = (+eng.value).toFixed(1) + ' л'; o('oHp').textContent = H + ' л.с.';
-      o('oCar').textContent = rub(P); o('oDel').textContent = rub(del); o('oDuty').textContent = rub(duty); o('oFee').textContent = rub(fee);
+      o('oCar').textContent = rub(P); o('oDuty').textContent = rub(duty); o('oFee').textContent = rub(fee);
       o('oUtil').textContent = util === null ? 'считаем отдельно' : rub(util);
-      o('oNote').textContent = (util === null ? 'Для машин мощнее 160 л.с. утильсбор считается по повышенной ставке и в итог не включён. ' : '') + 'Расчёт по типовым ставкам и курсу ' + CFG.eur + ' ₽ за €. Точную сумму назовём под конкретный автомобиль.';
+      o('oNote').textContent = (util === null ? 'Для машин мощнее 160 л.с. утильсбор считается по повышенной ставке и в итог не включён. ' : '') + 'Расчёт по типовым ставкам и курсу ' + CFG.eur + ' ₽ за €, без доставки. Доставку, сроки и точную сумму обсудим лично.';
       var cn = {kr:'Корея', cn:'Китай', eu:'Европа', us:'США'}[c], ag = ['до 3 лет','3–5 лет','старше 5 лет'][age];
-      o('calcSend').href = 'https://t.me/imoscowbear?text=' + encodeURIComponent('Здравствуйте! Хочу расчёт под ключ: ' + cn + ', цена ' + rub(P) + ', ' + ag + ', ' + (+eng.value).toFixed(1) + ' л, ' + H + ' л.с. На сайте вышло примерно ' + rub(total) + '.');
+      o('calcSend').href = 'https://t.me/imoscowbear?text=' + encodeURIComponent('Здравствуйте! Хочу расчёт под ключ: ' + cn + ', цена ' + rub(P) + ', ' + ag + ', ' + (+eng.value).toFixed(1) + ' л, ' + H + ' л.с. На сайте вышло примерно ' + rub(total) + ' без доставки.');
       // count the total to its new value
       var from = shown, to = total, st = performance.now(); cancelAnimationFrame(anim);
       (function step(n){ var q = reduce ? 1 : Math.min(1, (n - st) / 500); shown = from + (to - from) * (1 - Math.pow(1 - q, 3)); o('oTotal').textContent = rub(shown); if(q < 1) anim = requestAnimationFrame(step); })(st);
