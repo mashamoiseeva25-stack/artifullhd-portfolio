@@ -113,14 +113,29 @@ section{padding-block:clamp(72px,10vw,130px)}
 @media(max-width:520px){.countries{grid-template-columns:1fr}}
 
 /* services */
-.services{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
-.svc{grid-column:span 2;border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:12px;align-content:start;min-width:0;background:linear-gradient(180deg,rgba(95,184,255,.04),transparent 60%)}
-.svc:nth-child(4),.svc:nth-child(5){grid-column:span 3}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.svc{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:12px;align-content:start;min-width:0;background:linear-gradient(180deg,rgba(95,184,255,.04),transparent 60%)}
+.svc .num{font:500 12px/1 var(--mono);color:var(--neon);letter-spacing:.14em}
 .svc h3{font-size:20px}
 .svc p{color:var(--muted);font-size:15px}
-.svc .big{font:700 44px/1 var(--display);color:var(--neon);text-shadow:0 0 24px rgba(95,184,255,.5)}
-@media(max-width:900px){.services{grid-template-columns:1fr 1fr}.svc,.svc:nth-child(4),.svc:nth-child(5){grid-column:auto}.svc:last-child{grid-column:1/-1}}
+@media(max-width:980px){.services{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.services{grid-template-columns:1fr}}
+
+/* consignment: calm separate accent */
+.consign{position:relative;overflow:hidden;display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:40px;border:1px solid var(--line);border-radius:28px;padding:clamp(28px,5vw,64px);background:radial-gradient(90% 120% at 100% 50%,rgba(31,116,255,.12),transparent 60%),var(--bg)}
+.consign h2{margin:14px 0 16px}
+.consign p{color:var(--muted);max-width:520px}
+.c-list{list-style:none;margin:26px 0 30px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}
+.c-list li{display:flex;gap:12px;align-items:baseline;font-size:15px;color:#c6d2e3}
+.c-list li::before{content:"";flex:none;width:14px;height:1px;background:var(--neon);box-shadow:0 0 8px var(--neon);transform:translateY(-4px)}
+.c-r{display:grid;justify-items:center;gap:6px;text-align:center}
+.pct{width:min(100%,360px);height:auto;overflow:visible}
+.pct text{font:800 200px/1 var(--display);fill:rgba(95,184,255,0);stroke:var(--neon);stroke-width:1.4;stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2.6s cubic-bezier(.6,.1,.2,1),fill 1.2s ease 2s}
+.consign.in .pct text{stroke-dashoffset:0;fill:rgba(95,184,255,.07)}
+.pct .glow{stroke-width:5;opacity:.35;filter:url(#blur)}
+.c-r small{font:400 13px/1.4 var(--mono);color:var(--muted);letter-spacing:.08em}
+@media(max-width:860px){.consign{grid-template-columns:1fr}.c-r{order:-1}.pct{width:220px}}
+@media(max-width:480px){.c-list{grid-template-columns:1fr}}
 
 /* reels */
 .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -128,6 +143,8 @@ section{padding-block:clamp(72px,10vw,130px)}
 .reel video{width:100%;height:100%;object-fit:cover;display:block}
 .reel .cap{position:absolute;left:0;right:0;bottom:0;padding:60px 20px 20px;background:linear-gradient(0deg,rgba(4,6,10,.92),transparent);display:grid;gap:4px;pointer-events:none;transition:opacity .3s}
 .reel .cap b{font:700 18px/1.25 var(--display)}
+.reel .tag{position:absolute;left:16px;top:16px;font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;padding:8px 11px;border-radius:999px;background:rgba(4,6,10,.6);border:1px solid rgba(95,184,255,.45);color:var(--neon-hot);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s}
+.reel.on .tag{opacity:0}
 .reel .cap span{color:var(--muted);font-size:14px}
 .reel .play{position:absolute;left:50%;top:44%;width:74px;height:74px;margin:-37px 0 0 -37px;border-radius:50%;display:grid;place-items:center;background:rgba(31,116,255,.85);box-shadow:0 0 40px rgba(31,116,255,.7);pointer-events:none;transition:transform .25s,opacity .3s}
 .reel:hover .play{transform:scale(1.08)}
@@ -152,22 +169,34 @@ section{padding-block:clamp(72px,10vw,130px)}
 .rev-top{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:24px}
 .stars{font:700 22px/1 var(--display);display:flex;align-items:center;gap:12px}
 .stars span{color:#ffb400;letter-spacing:2px}
-.stage{position:relative;height:clamp(460px,62vw,700px);perspective:1400px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.stage{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:clamp(540px,88vh,940px);perspective:1600px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
 .stage.drag{cursor:grabbing}
-.stage::before{content:"";position:absolute;left:50%;top:50%;width:min(70vw,620px);aspect-ratio:1;max-width:100%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(31,116,255,.22),transparent 65%);pointer-events:none}
+.stage::before{content:"";position:absolute;left:50%;top:50%;width:min(80vw,900px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(31,116,255,.2),transparent 62%);pointer-events:none}
 .sphere{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
-.card{position:absolute;left:0;top:0;width:var(--cw);margin-left:calc(var(--cw) / -2);transform-origin:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;box-shadow:0 0 0 1px rgba(110,175,255,.22),0 16px 40px rgba(0,0,0,.6);transition:box-shadow .25s;cursor:pointer;will-change:transform,opacity}
-.card img{display:block;width:100%;height:auto;border-radius:14px;pointer-events:none}
-.card:hover{box-shadow:0 0 0 1px var(--neon),0 0 40px rgba(95,184,255,.5)}
+.card{position:absolute;left:0;top:0;width:var(--cw);margin-left:calc(var(--cw) / -2);font-size:calc(var(--cw) / 18);transform-origin:center;border-radius:1.1em;padding:1.1em 1.2em 1.2em;background:linear-gradient(180deg,#0e1622,#090e16);border:1px solid rgba(110,175,255,.24);cursor:pointer;will-change:transform,opacity;display:grid;gap:.55em;text-align:left;color:var(--fg)}
+.card:hover{border-color:var(--neon);box-shadow:0 0 30px rgba(95,184,255,.35)}
+.ch{display:flex;gap:.7em;align-items:center}
+.av{flex:none;width:2.6em;height:2.6em;border-radius:50%;display:grid;place-items:center;font:600 1.15em/1 var(--body);color:#fff;background:var(--c,#1f74ff)}
+.ch b{display:block;font:700 1.1em/1.2 var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch small{display:block;color:var(--muted);font-size:.85em}
+.st{color:#ffb400;letter-spacing:.12em;font-size:.95em;line-height:1}
+.car{font:500 .8em/1.3 var(--mono);color:var(--neon);letter-spacing:.02em}
+.card p{font-size:.98em;line-height:1.45;color:#cdd7e5;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .hint{text-align:center;color:var(--muted);font:400 13px/1 var(--mono);letter-spacing:.1em;margin-top:8px}
 .lightbox{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(2,4,8,.86);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:max(24px,env(safe-area-inset-top,0px)) var(--gut-r) max(24px,env(safe-area-inset-bottom,0px)) var(--gut-l)}
-.lightbox img{max-width:min(640px,100%);max-height:84vh;border-radius:18px;box-shadow:0 0 0 1px var(--neon),0 0 80px rgba(31,116,255,.4)}
+.lb-card{position:relative;margin:0;will-change:auto;width:min(600px,100%);max-height:84vh;overflow:auto;cursor:auto;--cw:600px;font-size:17px;padding:28px 30px;box-shadow:0 0 0 1px var(--neon),0 0 80px rgba(31,116,255,.4)}
+.lb-card p{-webkit-line-clamp:unset;display:block;font-size:17px}
+@media(max-width:520px){.lb-card{font-size:15px;padding:22px}.lb-card p{font-size:16px}}
 .lightbox button{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:calc(16px + env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:22px;cursor:pointer}
 
 /* final cta */
 .final{text-align:center;display:grid;justify-items:center;gap:22px;padding-block:clamp(80px,12vw,150px)}
 .final h2{font-size:clamp(30px,5vw,60px);max-width:900px}
 .final p{color:var(--muted);max-width:560px}
+.who{display:flex;align-items:center;gap:16px;text-align:left;padding:14px 22px 14px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg-2)}
+.who .kav{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:700 20px/1 var(--display);color:#fff;background:linear-gradient(135deg,#1f74ff,#5fb8ff);box-shadow:0 0 0 3px var(--bg-2),0 0 0 4px var(--neon),0 0 24px rgba(95,184,255,.6)}
+.who b{display:block;font:700 18px/1.2 var(--display)}
+.who span{color:var(--muted);font-size:14px}
 .handle{display:inline-flex;align-items:center;gap:10px;font:500 15px/1 var(--mono);color:var(--muted);border:1px dashed var(--line);padding:10px 14px;border-radius:10px;background:none;cursor:pointer}
 .handle:hover{color:var(--fg);border-color:var(--neon)}
 footer{border-top:1px solid var(--line);padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:14px}
@@ -177,21 +206,34 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .fab:hover{transform:scale(1.07)}
 .fab svg{width:26px;height:26px}
 
+.progress{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:2px;z-index:31;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--blue),var(--neon-hot));box-shadow:0 0 10px var(--neon);pointer-events:none}
+.links a{position:relative}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--neon);box-shadow:0 0 8px var(--neon);transform:scaleX(0);transition:transform .35s}
+.links a.on{color:var(--fg)}.links a.on::after{transform:scaleX(1)}
+.spot{position:relative;overflow:hidden}
+.spot::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(95,184,255,.13),transparent 70%)}
+.spot:hover::after{opacity:1}
+.js .rule{transform:scaleX(0);transition:transform 1.6s cubic-bezier(.6,.1,.2,1)}
+.js .rule.in{transform:scaleX(1)}
+.split .w{display:inline-block;transform:translateY(.55em);opacity:0;transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity .8s;transition-delay:calc(var(--i) * 45ms)}
+.split.in .w{transform:none;opacity:1}
 .reveal{transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .9s}
 .js .reveal.pre{transform:translateY(28px);opacity:.15}
 
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
+  .js .rule{transform:none}.split .w{transform:none;opacity:1}.pct text{stroke-dashoffset:0}
   .wm-draw .wm-base{stroke-dashoffset:0}
   html{scroll-behavior:auto}
 }
 </style>
 
+<div class="progress" id="progress" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="wrap">
     <a class="brand" href="#top">MORAL <b>AUTO</b></a>
     <nav class="links" aria-label="Разделы">
-      <a href="#countries">Страны</a><a href="#services">Услуги</a><a href="#video">Видео</a><a href="#steps">Этапы</a><a href="#reviews">Отзывы</a>
+      <a href="#countries">Страны</a><a href="#services">Услуги</a><a href="#sell">Продажа</a><a href="#video">Видео</a><a href="#steps">Этапы</a><a href="#reviews">Отзывы</a>
     </nav>
     <a class="btn btn-primary btn-sm" href="https://t.me/imoscowbear" target="_blank" rel="noopener">Связаться</a>
   </div>
@@ -235,7 +277,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="stat reveal"><b data-count="8">8</b><span>лет на рынке</span></div>
       <div class="stat reveal"><b data-count="700" data-suffix="+">700+</b><span>автомобилей привезли</span></div>
       <div class="stat reveal"><b>24/7</b><span>на связи с клиентом</span></div>
-      <div class="stat reveal"><b>5,0</b><span>средняя оценка на Авито</span></div>
+      <div class="stat reveal"><b>4,9</b><span>рейтинг на Авито, 114 отзывов</span></div>
     </div>
   </div>
   <div class="rule" aria-hidden="true"></div>
@@ -248,10 +290,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <p>Ищем машину под ваш запрос там, где она выгоднее. Сроки указаны от оплаты до прибытия в Москву.</p>
       </div>
       <div class="countries">
-        <article class="country reveal"><span class="flag">KR · Корея</span><h3>Корея</h3><div class="days">от 30 дней<small>Hyundai, Kia, Genesis и европейские авто с корейского рынка</small></div><p>Прозрачная история обслуживания и пробега по базам.</p></article>
-        <article class="country reveal"><span class="flag">CN · Китай</span><h3>Китай</h3><div class="days">от 30 дней<small>Zeekr, Li Auto, Geely, Haval, Tank и другие</small></div><p>Новые машины от дилеров и почти новые с минимальным пробегом.</p></article>
-        <article class="country reveal"><span class="flag">EU · Европа</span><h3>Европа</h3><div class="days">от 45 дней<small>BMW, Mercedes-Benz, Audi, Porsche, Land Rover</small></div><p>Проверка на месте до покупки, полный пакет документов.</p></article>
-        <article class="country reveal"><span class="flag">US · США</span><h3>США</h3><div class="days">от 60 дней<small>Пикапы, внедорожники, премиум</small></div><p>Аукционы и дилеры. Подбираем лоты без скрытых повреждений.</p></article>
+        <article class="country reveal spot"><span class="flag">KR · Корея</span><h3>Корея</h3><div class="days">от 30 дней<small>Hyundai, Kia, Genesis и европейские авто с корейского рынка</small></div><p>Прозрачная история обслуживания и пробега по базам.</p></article>
+        <article class="country reveal spot"><span class="flag">CN · Китай</span><h3>Китай</h3><div class="days">от 30 дней<small>Zeekr, Li Auto, Geely, Haval, Tank и другие</small></div><p>Новые машины от дилеров и почти новые с минимальным пробегом.</p></article>
+        <article class="country reveal spot"><span class="flag">EU · Европа</span><h3>Европа</h3><div class="days">от 45 дней<small>BMW, Mercedes-Benz, Audi, Porsche, Land Rover</small></div><p>Проверка на месте до покупки, полный пакет документов.</p></article>
+        <article class="country reveal spot"><span class="flag">US · США</span><h3>США</h3><div class="days">от 60 дней<small>Пикапы, внедорожники, премиум</small></div><p>Аукционы и дилеры. Подбираем лоты без скрытых повреждений.</p></article>
       </div>
       <p class="price-note">Стоимость под ключ считаем под конкретную машину: цена, доставка, таможня и учёт одной суммой.</p>
     </div>
@@ -264,11 +306,33 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <h2>От поиска машины до её продажи</h2>
       </div>
       <div class="services">
-        <article class="svc reveal"><h3>Привоз под ключ</h3><p>Находим, выкупаем, доставляем и растамаживаем. Вы получаете машину с номерами.</p></article>
-        <article class="svc reveal"><h3>Автоподбор</h3><p>Подбираем под ваш бюджет и задачи, проверяем состояние и историю до сделки.</p></article>
-        <article class="svc reveal"><h3>Оформление и учёт</h3><p>Таможня, ЭПТС, постановка на учёт. Документы берём на себя.</p></article>
-        <article class="svc reveal"><span class="big">3%</span><h3>Комиссионная продажа</h3><p>Продадим ваш автомобиль: оценка, подготовка, показы и сделка.</p></article>
-        <article class="svc reveal"><h3>Помощь после покупки</h3><p>Подскажем с обслуживанием и сервисом. Остаёмся на связи, когда машина уже у вас.</p></article>
+        <article class="svc reveal spot"><span class="num">01</span><h3>Привоз под ключ</h3><p>Находим, выкупаем, доставляем и растамаживаем. Вы получаете машину с номерами.</p></article>
+        <article class="svc reveal spot"><span class="num">02</span><h3>Автоподбор</h3><p>Подбираем под ваш бюджет и задачи, проверяем состояние и историю до сделки.</p></article>
+        <article class="svc reveal spot"><span class="num">03</span><h3>Оформление и учёт</h3><p>Таможня, ЭПТС, постановка на учёт. Документы берём на себя.</p></article>
+        <article class="svc reveal spot"><span class="num">04</span><h3>Помощь после покупки</h3><p>Подскажем с обслуживанием и сервисом. Остаёмся на связи, когда машина уже у вас.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="sell" style="padding-top:0">
+    <div class="wrap">
+      <div class="consign spot" id="consign">
+        <div class="c-l">
+          <span class="eyebrow">Комиссионная продажа</span>
+          <h2>Продадим вашу машину за вас</h2>
+          <p>Берём продажу на себя: оцениваем, готовим, показываем покупателям и проводим сделку. Вы не тратите время на звонки и встречи.</p>
+          <ul class="c-list">
+            <li>Оценка рыночной цены</li>
+            <li>Подготовка к продаже</li>
+            <li>Объявление и показы</li>
+            <li>Оформление сделки</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://t.me/imoscowbear" target="_blank" rel="noopener">Оценить мою машину</a>
+        </div>
+        <div class="c-r" aria-label="Комиссия 3%">
+          <svg class="pct" viewBox="0 0 400 230" aria-hidden="true"><text class="glow" x="200" y="200" text-anchor="middle">3%</text><text x="200" y="200" text-anchor="middle">3%</text></svg>
+          <small>комиссия от цены продажи</small>
+        </div>
       </div>
     </div>
   </section>
@@ -277,13 +341,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="wrap">
       <div class="head reveal">
         <span class="eyebrow">Вживую</span>
-        <h2>Как мы работаем с машинами</h2>
-        <p>Настоящие ролики с наших сделок. Нажмите, чтобы смотреть со звуком.</p>
+        <h2>Машины в деталях</h2>
+        <p>Диагностика, обзоры и короткие ролики о машинах, которые проходят через нас. Нажмите, чтобы смотреть со звуком.</p>
       </div>
       <div class="reels">
-        <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-mercedes.mp4.jpg" src="video/reel-mercedes.mp4"></video><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Mercedes-Benz E-класс</b><span>Проверка на подъёмнике перед сделкой</span></figcaption></figure>
-        <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-x2.mp4.jpg" src="video/reel-x2.mp4"></video><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>BMW X2</b><span>Обзор автомобиля перед выдачей</span></figcaption></figure>
-        <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-rangerover.mp4.jpg" src="video/reel-rangerover.mp4"></video><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Range Rover</b><span>Короткий ролик MORAL AUTO</span></figcaption></figure>
+        <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-mercedes.mp4.jpg" src="video/reel-mercedes.mp4"></video><span class="tag">Диагностика</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Mercedes-Benz E-класс</b><span>Проверка на подъёмнике</span></figcaption></figure>
+        <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-x2.mp4.jpg" src="video/reel-x2.mp4"></video><span class="tag">Обзор</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>BMW X2</b><span>Подробный обзор автомобиля</span></figcaption></figure>
+        <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-rangerover.mp4.jpg" src="video/reel-rangerover.mp4"></video><span class="tag">Тренды</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Range Rover</b><span>Короткий ролик в трендовом формате</span></figcaption></figure>
       </div>
     </div>
   </section>
@@ -314,12 +378,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <span class="eyebrow">Отзывы с Авито</span>
           <h2>Говорят клиенты</h2>
         </div>
-        <div class="stars"><span>★★★★★</span>19 отзывов, все на 5</div>
+        <div class="stars"><span>★★★★★</span>4,9 · 114 отзывов на Авито</div>
       </div>
       <div class="stage" id="stage" aria-label="Отзывы клиентов, сферу можно вращать">
         <div class="sphere" id="sphere"></div>
       </div>
-      <p class="hint">Потяните, чтобы покрутить · нажмите на отзыв, чтобы прочитать</p>
+      <p class="hint">Крутите в любую сторону · нажмите на отзыв, чтобы прочитать целиком</p>
     </div>
   </section>
 
@@ -327,10 +391,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <section class="final">
     <div class="wrap" style="display:grid;justify-items:center;gap:22px">
       <span class="eyebrow">Начнём с запроса</span>
-      <h2>Напишите, какую машину ищете. Ответим в течение часа.</h2>
+      <h2>Напишите, какую машину ищете</h2>
+      <p>Подберём варианты и посчитаем стоимость под ключ.</p>
+      <div class="who"><span class="kav" aria-hidden="true">К</span><div><b>Кирилл</b><span>менеджер MORAL AUTO</span></div></div>
       <a class="btn btn-primary" href="https://t.me/imoscowbear" target="_blank" rel="noopener">
         <svg class="tg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.8 19c-.2 1-.8 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.2.2-.5.4-1 .4l.3-4.8 8.8-7.9c.4-.3-.1-.5-.6-.2L6.7 12.8 2 11.3c-1-.3-1-1 .2-1.5L20.6 2.7c.9-.3 1.6.2 1.3 1.6Z"/></svg>
-        Написать в Telegram
+        Написать Кириллу
       </a>
       <button class="handle" id="copyHandle" type="button">@imoscowbear <span id="copyLbl">скопировать</span></button>
     </div>
@@ -348,7 +414,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M21.9 4.3 18.8 19c-.2 1-.8 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.2.2-.5.4-1 .4l.3-4.8 8.8-7.9c.4-.3-.1-.5-.6-.2L6.7 12.8 2 11.3c-1-.3-1-1 .2-1.5L20.6 2.7c.9-.3 1.6.2 1.3 1.6Z"/></svg>
 </a>
 
-<div class="lightbox" id="lightbox" hidden><button type="button" id="lbClose" aria-label="Закрыть">×</button><img id="lbImg" alt=""></div>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Отзыв"><button type="button" id="lbClose" aria-label="Закрыть">×</button><div class="card lb-card" id="lbCard"></div></div>
 
 <script>
 (function(){
@@ -383,15 +449,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     if(getComputedStyle(v.parentNode).display === 'none') return;
     v.src = v.dataset.src; v.muted = true; var p = v.play(); if(p && p.catch) p.catch(function(){});
   });
-  // reels: tap to play with sound, one at a time
-  var reels = document.querySelectorAll('.reel');
+  // reels: muted preview on hover (desktop), click plays with sound, one at a time
+  var reels = document.querySelectorAll('.reel'), fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   reels.forEach(function(r){
     var v = r.querySelector('video');
     r.addEventListener('click', function(){
-      if(v.paused){ reels.forEach(function(o){ var ov = o.querySelector('video'); if(ov !== v){ ov.pause(); o.classList.remove('on'); } });
-        v.controls = true; var p = v.play(); if(p && p.catch) p.catch(function(){}); r.classList.add('on'); }
+      if(r.classList.contains('on')) return;
+      reels.forEach(function(o){ var ov = o.querySelector('video'); if(ov !== v){ ov.pause(); o.classList.remove('on'); ov.controls = false; } });
+      v.muted = false; v.currentTime = 0; v.controls = true; var p = v.play(); if(p && p.catch) p.catch(function(){}); r.classList.add('on');
     });
-    v.addEventListener('pause', function(){ if(v.currentTime === 0 || v.ended) r.classList.remove('on'); });
+    if(fine && !reduce){
+      r.addEventListener('pointerenter', function(){ if(r.classList.contains('on')) return; v.muted = true; var p = v.play(); if(p && p.catch) p.catch(function(){}); });
+      r.addEventListener('pointerleave', function(){ if(r.classList.contains('on')) return; v.pause(); });
+    }
     v.addEventListener('ended', function(){ r.classList.remove('on'); v.controls = false; });
   });
 
@@ -441,67 +511,125 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   }
   addEventListener('scroll', onSteps, {passive:true}); onSteps();
 
-  // reviews sphere
-  var files = ['01-maksim-bmw3','02-yulia-evoque','03-sergey-pajero','04-viktor-lc300','05-denis-rangerover','06-mikhail-gclass','07-anton-bmw3','08-vtn-bmw3','09-yura-eclass','10-misha-x5','11-valeriy-ram','12-evgeniy-ram','13-vyacheslav-cx5','14-oleg-gl','15-sergey-a7','16-vladislav-eclass','17-aleksandr-m8','18-newt-x5','19-mr-cla'];
+  // reviews sphere: text cards on an ellipsoid, free trackball rotation
+  var REV = [{"n": "Максим", "d": "19 марта 2026", "c": "BMW 3 серия, 2023", "t": "Рекомендую таких продавцов, четко и детально предоставил всю развернутую информацию, сообщил сразу все моменты, помог на всех этапах, сделал скидку)) Таких в красную книгу бы 😎"}, {"n": "Юлия", "d": "30 декабря 2025", "c": "Land Rover Range Rover Evoque, 2014", "t": "Выражаю огромную благодарность Александру за высочайший уровень сервиса! Всё честно (подтверждено диагностом) рассказали."}, {"n": "Сергей", "d": "12 декабря 2025", "c": "Mitsubishi Pajero, 2019", "t": "Покупкой остался доволен, продавец сделал хорошую скидку, рекомендую!"}, {"n": "Виктор", "d": "20 ноября 2025", "c": "Toyota Land Cruiser, 2021", "t": "Все четко, машиной доволен!"}, {"n": "Денис", "d": "8 октября 2025", "c": "Land Rover Range Rover, 2018", "t": "Оперативно и качественно предоставили всю информацию по авто. При осмотре по моей просьбе предоставили подъемник. Быстрый выход на сделку. Оказали помощь в регистрации авто. Спасибо всему коллективу. Рекомендую данного продавца"}, {"n": "Михаил", "d": "26 сентября 2025", "c": "Mercedes-Benz G-класс AMG, 2022", "t": "Ответственный приятный продавец! Всё по факту оказалось так же, как и описывалось по телефону, подборщик состояние авто подтвердил."}, {"n": "Антон", "d": "20 сентября 2025", "c": "BMW 3 серия, 2019", "t": "Покупкой доволен, все как описано в объявлении, ЭПТС пришел через пару недель после покупки, на учет встала без проблем. Кирилл всегда на связи по любым вопросам. Рекомендую."}, {"n": "VTN DETAILING", "d": "31 августа 2025", "c": "BMW 3 серия, 2019", "t": "Покупал у данной компании авто себе на подарок, осуществил наконец-то одну из своих маленьких целей, сделали лучший выпуск авто с бантиком, все было на высоте, разрешили поснять видео, дали советы по эксплуатации и многое другое, короче говоря, получил много эмоций, общались все очень вежливо, все было супер, обращусь еще раз как-нибудь) 🙏🖤"}, {"n": "Юра Хачатрян", "d": "28 августа 2025", "c": "Mercedes-Benz E-класс, 2016", "t": "Честные и порядочные парни! Советую!"}, {"n": "Миша", "d": "26 августа 2025", "c": "BMW X5, 2019", "t": "Александр, спасибо большое за сервис, скидку, нарды и приятное общение. Сделка была на высшем уровне. Александр очень клиентоориентированный в своем деле. Все делается, чтобы клиент уехал довольный как паровоз. Настойчиво рекомендую купечеству брать авто у Александра!"}, {"n": "Валерий Казарин", "d": "26 августа 2025", "c": "RAM 1500, 2023", "t": "Ребята большие молодцы! Все честно, быстро и удобно! Машина без сюрпризов и проблем. Цена отличная)) Однозначно всем рекомендую и сам планирую снова обращаться."}, {"n": "Евгений", "d": "7 августа 2025", "c": "RAM 1500, 2022", "t": "Купил Dodge Ram Rebel. Ребята молодцы, все быстро, по делу. Помогли во всех возникающих вопросах! Рекомендую и желаю удачи в бизнесе!"}, {"n": "Вячеслав Макаров", "d": "9 июля 2025", "c": "Mazda CX-5, 2018", "t": "Все прошло отлично! Большое спасибо Кириллу, все рассказал, показал, помог в непонятных ситуациях. Покупкой доволен. Рекомендую 👍"}, {"n": "Олег", "d": "10 июня 2025", "c": "Mercedes-Benz GL-класс AMG, 2015", "t": "Авто купили!!! Все показали и раскатали! Сделали скидку и поставили на учет!"}, {"n": "Сергей", "d": "9 июня 2025", "c": "Audi A7, 2020", "t": "Спасибо большое за прекрасный автомобиль. Позвонили, Кирилл все рассказал, приехали посмотрели, машина понравилась, разрешили проверить машину через эксперта, вся информация по машине подтвердилась. Ребят рекомендую, удачи в вашей деятельности!"}, {"n": "Владислав", "d": "2 июня 2025", "c": "Mercedes-Benz E-класс, 2019", "t": "Машина в отличном состоянии, покупкой доволен, езжу уже 3 недели. Никаких подводных камней. С полной уверенностью рекомендую!"}, {"n": "Александр", "d": "21 мая 2025", "c": "BMW M8, 2019", "t": "Всем рекомендую, все максимально прозрачно, как описано, спасибо за машину, очень довольны, друзьям и родным буду рекомендовать именно вас."}, {"n": "Newt", "d": "5 мая 2025", "c": "BMW X5, 2018", "t": "Рекомендую. Все быстро, четко, а главное без обмана!"}, {"n": "Mr", "d": "27 апреля 2025", "c": "Mercedes-Benz CLA-класс, 2015", "t": "Рекомендую 👍 Смело обращайтесь. Покупкой остался доволен 🤝"}, {"n": "Витя", "d": "8 марта 2025", "c": "Land Rover Range Rover Evoque, 2012", "t": "Машина оказалась в том же состоянии как в описании, забрали в подбор 👍 Обратная связь отличная, рекомендую 👍"}, {"n": "Евгений", "d": "7 марта 2025", "c": "Mercedes-Benz C-класс, 2014", "t": "Все отлично, автомобиль в целом для своих лет оказался в хорошем состоянии. Ребятам можно доверять."}, {"n": "wowa", "d": "10 февраля 2025", "c": "Mercedes-Benz E-класс, 2013", "t": "Очень хороший продавец. Всё прошло отлично. Молодцы."}, {"n": "Андрей", "d": "2 февраля 2025", "c": "Mercedes-Benz GLA-класс AMG, 2021", "t": "Все четко! Пацаны молодцы! Однозначно рекомендую 🤝 Сестра очень довольна подарком!"}, {"n": "Клиент", "d": "", "c": "Land Rover Range Rover", "t": "Четкие парни! Все рассказали, показали) Кирилл, трудяга видно парень, успехов! Жму руку 🤝"}, {"n": "Артём", "d": "3 декабря 2024", "c": "Porsche Macan S, 2015", "t": "Все отлично, хорошие ребята, во всем помогли, купил с их помощью в автокредит, покупкой доволен!"}, {"n": "Зар Алиана", "d": "17 ноября 2024", "c": "Mercedes-Benz GL-класс, 2013", "t": "Ребята молодцы, все показали и рассказали, предложили скидку, машиной довольны, Александр так держать."}, {"n": "Орлов", "d": "9 октября 2024", "c": "Land Rover Range Rover, 2019", "t": "Хочу выразить благодарность ребятам за помощь в приобретении и оформлении автомобиля. Александр, Кирилл и Евгений - честные и ответственные профессионалы своего дела. Оперативно отвечали на все интересующие вопросы, были всегда на связи, а также лично присутствовали во время постановки на учет автомобиля в ГАИ и при получении номеров. Рекомендую всем сотрудничать с ребятами! Не подведут, сделают все быстро и качественно! Спасибо вам и желаю процветания вашему делу! 👍"}, {"n": "Клиент", "d": "", "c": "Jaguar XJ, 2019", "t": "Покупал у Кирилла Ягуар XJ. Человек конкретный: сказал, сделал! Очень доволен покупкой 😀 Ребята молодцы, поставили на учет, все пожелания учли! Порядочные, советую 👍"}, {"n": "Валерия", "d": "4 октября 2024", "c": "Jeep Grand Cherokee, 2013", "t": "Покупкой очень довольны!! Приятно было иметь дело с таким отзывчивым и дружелюбным продавцом. Все было сделано профессионально, спасибо за качественный сервис! 🤩 Сделка прошла отлично, автомобиль соответствовал описанию. Рекомендую 🔥"}, {"n": "Winston", "d": "20 сентября 2024", "c": "Kia Ceed, 2016", "t": "Спасибо за хороший автомобиль, честно все рассказали, проверил сам и все подтвердилось"}, {"n": "Alexander Orlov", "d": "9 сентября 2024", "c": "BMW 8 серия Gran Coupe, 2020", "t": "Все отлично, купил одним днем, проверяли с подборщиком, ничего критичного не нашли. Приятные, позитивные продавцы"}, {"n": "олег", "d": "14 августа 2024", "c": "Land Rover Range Rover, 2021", "t": "Приехали посмотреть, все как заявлено, документы на машину сделали вовремя, как и договаривались. Так как сами из региона, попросил ребят исправить пару нюансов по машине, приятно что пошли на встречу, подсказали и все сделали! Всегда на связи, рекомендую"}, {"n": "Леонид", "d": "14 августа 2024", "c": "BMW X5, 2015", "t": "Долго выбирал автомобиль. Слаженная работа, профессионалы своего дела, сервис на высоком уровне. Все прошло отлично. Приобрел автомобиль BMW X5. Сделали приятную скидку). Менеджер Кирилл салона все время на связи, полное сопровождение сделки, с постановкой на учет. Огромнейшая благодарность Кириллу за помощь в приобретении классного автомобиля!"}, {"n": "Николай", "d": "26 июля 2024", "c": "BMW 3 серия, 2019", "t": "К ребятам можно смело обращаться, выполнили все как было договорено. Никаких проблем с документами не возникло, все что нужно для постановки на учет предоставили в оговоренные сроки."}, {"n": "Покупатель", "d": "19 июля 2024", "c": "BMW X6, 2020", "t": "Приобрели шикарный автомобиль, продавец всё показал и рассказал, помог с проверкой. Ребята очень отзывчивые и хорошо разбираются в вопросах с машиной"}, {"n": "Анна Леонидовна", "d": "18 июля 2024", "c": "Opel Insignia, 2018", "t": "Созвонились по интересующему меня авто, продавец был вежлив, уточнили некоторые детали по телефону и договорились о встрече. Сначала немного переживала, но после знакомства, а затем осмотра авто, все сомнения отпали!) Согласились на проверку в сервисе, также сделали очень приятную скидку! Покупкой с мужем очень довольны, однозначно рекомендую продавца! 🙏😊"}, {"n": "Александр", "d": "13 июля 2024", "c": "Mercedes-Benz E-класс, 2013", "t": "Покупкой доволен. Отдельное спасибо менеджеру Кириллу за честные ответы по состоянию авто, все показал рассказал. И Евгению за сопровождение сделки, вплоть до оформления в ГАИ."}, {"n": "Михаил", "d": "8 июля 2024", "c": "Mercedes-Benz GL-класс, 2013", "t": "Ребята молодцы, дорожат своей репутацией. Купил у них хороший авто. Отдельное спасибо Кириллу, много времени он мне уделил. Рекомендую 100%. Удачи вам."}, {"n": "GAREEV AUTO", "d": "4 июля 2024", "c": "Mercedes-Benz E-класс AMG, 2013", "t": "Хочу сказать большое спасибо Александру за автомобиль моей мечты!)) Очень долго искал и нашёл то, что давно хотел. Предоставили всю информацию по машине по телефону. Далее предоставили комфортные условия для осмотра автоподбором. Ну и контрольно согласились осмотреть в профильном сервисе. Согласовали хороший торг, встретили и отдали чистую машину. Красавцы! Успехов и процветания Вам!"}, {"n": "Максим", "d": "2 июля 2024", "c": "Dodge Ram, 2013", "t": "Максимально честные ребята, рассказали все как есть по машине, а именно что в общем и целом по состоянию вопросов нет за исключением мелочи, что по факту и подтвердила диагностика в сервисе. Был удивлен, обычно все иначе. Документы все оформили быстро, четко, оперативно. Кирилл всегда на связи по всем вопросам и даже после продажи. Покупкой доволен, ребята молодцы. А честность в этой сфере вообще редкость. Однозначно 5 и рекомендации"}, {"n": "Клиент", "d": "", "c": "", "t": "Очень толковый и честный продавец. Все рассказал, показал по машине, прокатились… потом я с автоподборщиком приехал, который сказал то же самое. Итог - машина куплена! Приятно иметь дело с честными ребятами! Доволен как слон!"}, {"n": "Елена", "d": "22 июня 2024", "c": "Land Rover Range Rover Velar, 2019", "t": "Приобрели машину, всё прошло отлично, спасибо большое за внимательное отношение ☝️ Всё рассказали, показали, сделали скидку! Кто хочет приобрести машину, советую обращаться к этим ребятам, всё прозрачно, понятно! Ребята работают по честному, ни какой мути и подводных камней, очень дорожат своей репутацией, а это ценно для покупателей! Всегда на связи! Машина в идеале и у них такой подход, что хлам не привозят и в продаже машины только в идеальном состоянии! Пересмотрели много машин у других, поэтому есть с чем сравнить! Рекомендую 💯%"}, {"n": "Евгений", "d": "20 июня 2024", "c": "BMW Z4, 2019", "t": "Все прошло оперативно и четко, ребята профи своего дела, все оперативно подсказали, показали, я машину проверил со своими специалистами и не было обнаружено ничего скрытого. Рекомендую продавца."}, {"n": "Виталий", "d": "18 июня 2024", "c": "Volkswagen Golf GTI, 2019", "t": "Все честно и прозрачно, парни всегда на связи, комплект документов предоставили полный. На многие мои хотелки получал утвердительный ответ (осмотр и тест драйв - без проблем, сменить резину - без проблем) и с синхронизацией по времени никогда проблем не возникало. В общем сложилось ощущение, что покупал авто у хороших знакомых))). Отдельно спасибо Кириллу за уделенное время!!! Парни, удачи вам в будущем! Тачка - огонь!"}, {"n": "Алексей", "d": "3 июля 2024", "c": "Volkswagen Golf R, 2019", "t": "По ряду причин авто не купил, но сервис отличный, вежливое общение, достаточно быстро отвечают на все вопросы."}, {"n": "Александр", "d": "7 июня 2024", "c": "BMW 6 серия, 2013", "t": "В наше время очень тяжело найти честных продавцов, но они есть! Все честно, прозрачно, помогли авто поставить на учет. Автомобилем доволен, однозначно рекомендую! Кириллу и Евгению отдельная благодарность! Спасибо, парни!"}, {"n": "Евгений", "d": "7 июня 2024", "c": "BMW 4 серия, 2021", "t": "Хочу оставить отзыв о этой прекрасной компании! Ехал с другого города, предварительно созвонились, Кирилл всё досконально объяснил по машине, в машинах ребята уверены, предложил осмотр сторонним специалистом, что еще раз доказало, что с машиной все в порядке. По итогу так и оказалось, машины у ребят в идеальном состоянии, видно что отбирают хорошо. Ребята всегда на связи, готовы помочь, решить любой вопрос. Впервые встречаю таких отзывчивых людей! Документы сделали вовремя, без задержек, машину уже поставил на учет без проблем. Отдельное спасибо и благодарность хочу выразить Кириллу и Евгению! Спасибо большое вам! Машинка супер! Однозначно буду всем советовать!"}, {"n": "Камран", "d": "1 июня 2024", "c": "Mercedes-Benz GLE-класс, 2019", "t": "Искал машину для себя, позвонил продавцу, все про машину рассказали, приехал вместе с подборщиком, все проверили, машина так как и было заявлено, сделали приятную скидку, покупкой доволен, рекомендую данного продавца!"}, {"n": "Mosfilm Auto", "d": "29 мая 2024", "c": "Audi Q7, 2020", "t": "Продавец честный, рекомендую."}, {"n": "Игорь", "d": "24 мая 2024", "c": "Mercedes-Benz C-класс, 2015", "t": "Прилетал с другого города! Уделил максимум времени для проверки авто! Без всяких проблем договорились о цене! 🤝 Еще раз спасибо, тачка 💣💣💣"}, {"n": "Ника", "d": "2 мая 2024", "c": "BMW X7, 2020", "t": "Выбирали семейную машину, ребятам большое спасибо за то, что все честно рассказали про автомобиль! Получили приятную скидку, купили автомобиль. Когда задумаемся о смене машины или еще одной, обратимся еще раз!"}, {"n": "Игнат", "d": "27 апреля 2024", "c": "Mercedes-Benz M-класс AMG, 2012", "t": "Договорились о осмотре, приехали, посмотрели, автомобиль соответствовал описанию, ребята максимально приятные и клиентоориентированные, жаль не успели купить"}, {"n": "Игорь Марохин", "d": "16 апреля 2024", "c": "BMW 3 серия, 2020", "t": "Отличный продавец. Авто в отличном состоянии. Цена соответствовала объявлению, небольшой торг у капота продавец воспринял адекватно, поэтому авто обрел нового владельца) Рекомендую!!!"}, {"n": "Андрей", "d": "11 апреля 2024", "c": "Toyota Camry, 2014", "t": "Прекрасное состояние авто, в объявлении все описано четко, ребята работают на высшем уровне, предложили скидку. Осмотр закончился покупкой авто. Автомобилем доволен на все 100."}, {"n": "Denis", "d": "5 апреля 2024", "c": "Jaguar XE, 2020", "t": "Автомобиль превзошел ожидания, состояние салона, внешний вид и описание соответствовали. Александр всё рассказал, показал, дал рекомендации по сервису! Всё прошло оперативно и без воды) Рекомендую!"}, {"n": "Давидов", "d": "1 апреля 2024", "c": "Mercedes-Benz CLS-класс, 2016", "t": "Ребята профессионалы в своем деле. Прилетел из Питера ради одной машины, и ожидания были оправданы. Перед показом машину помыли и предоставили теплое и освещенное помещение для осмотра. Цена порадовала, еще и сделали скидку. Машина 🔥 Ребятам большое спасибо 🤝"}, {"n": "Дмитрий", "d": "30 марта 2024", "c": "Mercedes-Benz GLE Coupe, 2018", "t": "Хочется сказать слова благодарности ребятам. Очень давно искали достойный GLE. По телефону все честно рассказали, авто оказался на деле без сюрпризов и в отличном состоянии. Все прозрачно, быстро и по доброму. Рады были пообщаться, и спасибо за автомобиль"}, {"n": "Akira productions", "d": "21 марта 2024", "c": "Land Rover Range Rover, 2019", "t": "Добросовестный продавец 👍"}, {"n": "Виталий Романов", "d": "21 марта 2024", "c": "Mercedes-Benz E-класс, 2018", "t": "Спасибо за чудесный мерен. Приятно общаться с честным продавцом. Все как в описании."}, {"n": "Хамза", "d": "19 марта 2024", "c": "Mercedes-Benz M-класс AMG, 2012", "t": "Машина бомба, приехали посмотрели, все понравилось. Договорились о скидке и забрали. Удачи!"}, {"n": "ЯПОДБОР", "d": "18 марта 2024", "c": "Nissan Juke, 2014", "t": "Ребята работают честно. Машина оказалась отличной."}, {"n": "medved", "d": "17 марта 2024", "c": "Mercedes-Benz E-класс, 2016", "t": "Машиной доволен, общение с продавцом понравилось, сопровождает и помогает при переоформлении, находит автомобили в хорошем состоянии и делает хорошие скидки. Если буду искать себе другое авто, начну сразу с Александра."}, {"n": "Евгений", "d": "16 марта 2024", "c": "BMW X4, 2022", "t": "Ребяты вызывают доверие ;) Спасибо за авто!"}, {"n": "Rus", "d": "6 марта 2024", "c": "Mercedes-Benz SL-класс AMG, 2023", "t": "Спасибо за машину, очень довольны сервисом! 👍"}, {"n": "Игорь", "d": "3 марта 2024", "c": "BMW M4, 2018", "t": "Большое спасибо Александру и Кириллу. Сделка прошла успешно. Приобретал а/м БМВ М4, заказывал услуги автоподбора, парни ничему и никаким проверкам не препятствовали. Авто идеален, как и указан в объявлении. Покупкой доволен. 5 ⭐️"}, {"n": "Игорь", "d": "3 марта 2024", "c": "BMW X4, 2019", "t": "Покупкой доволен, всё понравилось, ребята молодцы 👏"}, {"n": "Денис Вадимович", "d": "28 февраля 2024", "c": "BMW X2, 2018", "t": "Когда я в первый раз задумался о покупке автомобиля из Европы, мне на ум сразу пришла одна вещь: как найти честного продавца, который предложит качественный автомобиль по разумной цене. Честно говоря, я был немного насторожен, но мой опыт покупки машины из Европы оказался невероятным благодаря честному продавцу. С первого же контакта продавец произвел на меня очень приятное впечатление. Честность и профессионализм. Он был готов ответить на все мои вопросы и проконсультировать меня на каждом этапе покупки. Я получил полную и объективную информацию о состоянии автомобиля, и продавец предоставил мне дополнительные фотографии и отчеты. Он организовал все аспекты доставки и документации. Все документы были в порядке, и я чувствовал себя уверенно и защищенно на каждом этапе сделки. Сам автомобиль оказался выше всех моих ожиданий. Никаких неприятных сюрпризов, только чистый, надежный и качественный автомобиль. В целом, огромное спасибо за Ваш честный труд! Одним словом - рекомендую"}, {"n": "Клиент", "d": "", "c": "Nissan Juke", "t": "Все было так, как заявлено! Машиной клиент остался доволен"}, {"n": "Вероника", "d": "24 февраля 2024", "c": "BMW X6, 2020", "t": "Огромное спасибо за сделку. Очень доброжелательные ребята. От первой встречи и до покупки всё прошло идеально. Полностью достоверная информация об автомобиле. Помогают с оформлением документов и в целом отвечают на все вопросы, очень доброжелательны. Остались только приятные ощущения от покупки. Очень рекомендую."}, {"n": "Олег", "d": "22 февраля 2024", "c": "LiXiang L9, 2023", "t": "Очень вежливый, аккуратный и пунктуальный продавец. Пошел навстречу на все мои просьбы, сделка прошла гладко и комфортно. Категорически рекомендую!"}, {"n": "Андрей", "d": "18 февраля 2024", "c": "Volvo XC60, 2018", "t": "Все хорошо! Кирилл продавец и его коллеги открыты и позитивны! Спасибо за открытость и отзывчивость. Рассказали все про машину, включая и разные нюансы… Покупкой доволен! :) Обещали еще чуть позже летнюю резину с дисками привезти (она осталась в Белоруссии) и помочь с постановкой на учет. Спасибо большое. :)"}, {"n": "Амир", "d": "18 февраля 2024", "c": "Audi A6, 2018", "t": "Хотелось бы поблагодарить ребят, показали машину, ответили на все вопросы. Машина в хорошем состоянии, взял, ни о чем не жалею."}, {"n": "Александр", "d": "14 февраля 2024", "c": "Mercedes-Benz G-класс, 2019", "t": "Только слова благодарности за честность и отличный авто! Уверен, с таким подходом ребята будут первые на авторынке Москвы!!! 🤝"}, {"n": "Артём", "d": "13 февраля 2024", "c": "BMW X3, 2014", "t": "Отличный продавец, общительный, все рассказал и показал. Забирал с подборщиком, все оказалось так, как и указано в объявлении. Поэтому смело рекомендую данного продавца к сотрудничеству, спасибо вам за отличную машину!"}, {"n": "Никита", "d": "9 февраля 2024", "c": "BMW M5, 2018", "t": "Хорошие ребята, дали все проверить, все рассказали, сошлись по цене. Советую)"}, {"n": "Клиент", "d": "", "c": "BMW 3 серия, 2020", "t": "Всем добрый день. У нас стояла задача подбора автомобиля БМВ G20, искали очень долго с клиентом, много хлама и обмана, в принципе все как обычно. Тут нарвались на автомобиль Александра, позвонили, узнали все, рассказал про машину все честно, думали сначала неправда. Приехали на осмотр, всю перевернули ее, машина оказалась честная и прозрачная. Родной пробег, не битая. Побольше бы таких порядочных продавцов. Советую 👌👍👋"}, {"n": "Жора", "d": "9 января 2024", "c": "BMW 3 серия, 2015", "t": "Отличные ребята, сделали скидку! Автомобиль даже немного превзошел ожидания. Рекомендую!"}, {"n": "Светлана", "d": "29 декабря 2023", "c": "Mercedes-Benz GLC Coupe, 2016", "t": "Мы очень довольны покупкой и любим нашу машинку. Благодарю Александра, очень честный и добрый человек, даже задаток вернул, у нас не получалось сначала приехать, но через неделю приехали и забрали нашу машину, она просто в идеальном состоянии. Александр, дай Бог вам процветания в вашей работе. Рекомендую на все миллион процентов."}, {"n": "Антон", "d": "30 ноября 2023", "c": "Mercedes-Benz S-класс AMG, 2014", "t": "Парни молодцы, все классно"}, {"n": "Vladislav", "d": "28 ноября 2023", "c": "Mercedes-Benz E-класс, 2014", "t": "Спасибо парням, машина отличная. Все рассказали, после приезда информация вся соответствовала, покупкой доволен 🤝"}, {"n": "Алик", "d": "21 ноября 2023", "c": "Chevrolet Lacetti, 2008", "t": "Саше спасибо. Машиной доволен, все быстро оформили 👌"}, {"n": "Юлия", "d": "20 ноября 2023", "c": "Mercedes-Benz GLC Coupe, 2016", "t": "Спасибо за автомобиль, всем довольны."}, {"n": "Давид Арманович", "d": "20 ноября 2023", "c": "Mercedes-Benz E-класс, 2014", "t": "Ребята знают свою работу, приятные в общении, дали хорошую скидку, пунктуальные, держат свое слово! Машина в очень достойном состоянии!"}, {"n": "Анастасия", "d": "17 ноября 2023", "c": "Geely Monjaro, 2023", "t": "Машина очень хорошая, с мужем очень довольны покупкой! Продавец тоже очень хороший, рассказал все про машину и объяснил все по документам. По цене все как в описании, никаких других наценок не было."}, {"n": "AR", "d": "12 ноября 2023", "c": "Mercedes-Benz GL-класс, 2015", "t": "Максимально приятный продавец, рассказал и показал все, как есть. Подъехал к нам, подождал, пока машину полностью проверят. Понятно и доходчиво объяснил по поводу учета. Сделал хорошую скидку. Остался доволен!"}, {"n": "Консалтинговый Центр", "d": "6 ноября 2023", "c": "BMW X5, 2019", "t": "БМВ на базе 👍"}, {"n": "Кирилл Бирюков", "d": "31 октября 2023", "c": "BMW 4 серия Gran Coupe, 2019", "t": "Отличный продавец, ответил на все вопросы, показал машину, согласился на поездку в профильный сервис, где посмотрели машину, где в итоге и совершили сделку! Рекомендую"}, {"n": "Иван Шарков", "d": "31 октября 2023", "c": "Mercedes-Benz GL-класс, 2014", "t": "Приобрёл автомобиль, доволен авто. Александру спасибо!"}, {"n": "Маша", "d": "28 октября 2023", "c": "Hyundai Creta, 2017", "t": "Очень довольна покупкой. Сделка прошла хорошо. Все супер. Продавца рекомендую."}, {"n": "Иван Филиппов", "d": "14 октября 2023", "c": "Land Rover Range Rover Velar, 2018", "t": "Покупкой очень доволен, продавец все конкретно рассказал еще по телефону. По приезду осмотра машина соответствовала всем критериям описания. Ренж просто огонь, никогда не думал о покупке такой машины, но влюбился с первого взгляда. Продавец легко согласился на проверку машины на станции, после проверки механик подтвердил родной пробег, окрас кузова и в целом порядочность продавца. Спасибо 🤝🤝🤝"}, {"n": "Аня", "d": "14 октября 2023", "c": "Mercedes-Benz GL-класс, 2014", "t": "Сделка прошла отлично, скидку сделали, машиной доволен! Рекомендую!"}, {"n": "Сергей", "d": "8 октября 2023", "c": "Volkswagen Golf Plus, 2012", "t": "Сделка прошла успешно. Продавец очень честно описал машину, сделкой доволен. Рекомендую!!"}, {"n": "Владимир", "d": "6 октября 2023", "c": "BMW X5, 2018", "t": "Продавец вежливый, все рассказал-показал, главное, что все открыто и честно. Сделка состоялась, однозначно рекомендую. Успеха и процветания"}, {"n": "Евгений", "d": "22 сентября 2023", "c": "Hyundai Solaris, 2015", "t": "Продавец всё подробно рассказал про машину, ничего не скрывал. Автомобиль приезжал смотреть вместе с подборщиком, и машина оказалась действительно хорошей. Вместе с продавцом съездили в сервис, осмотрели всё на подъёмнике, никаких нареканий не нашли."}, {"n": "Артём Багдасарян", "d": "14 сентября 2023", "c": "Mercedes-Benz E-класс, 2016", "t": "Машина отличная, всё как говорил продавец. От покупки отказался по личным причинам. Машина огонь, как и продавец, рекомендую!"}];
   var sphere = document.getElementById('sphere'), stage = document.getElementById('stage');
-  var N = files.length, cards = [];
-  files.forEach(function(f, i){
+  var COLORS = ['#1f74ff','#3a8dde','#5b6cf0','#2aa3c9','#7b5cf0','#3f7fbf','#4b94ff','#2f6fd6'];
+  var N = REV.length, cards = [];
+  function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function cardHTML(r, i){
+    return '<div class="ch"><span class="av" style="--c:' + COLORS[i % COLORS.length] + '">' + esc(r.n.charAt(0).toUpperCase()) + '</span><div><b>' + esc(r.n) + '</b>' + (r.d ? '<small>' + esc(r.d) + '</small>' : '') + '</div></div>' +
+      '<div class="st" aria-label="5 звёзд">★★★★★</div>' + (r.c ? '<div class="car">' + esc(r.c) + '</div>' : '') + '<p>' + esc(r.t) + '</p>';
+  }
+  REV.forEach(function(r, i){
     var y = 1 - (i + .5) / N * 2, rad = Math.sqrt(1 - y*y), th = i * Math.PI * (3 - Math.sqrt(5));
-    var c = document.createElement('div'); c.className = 'card'; c.tabIndex = 0; c.setAttribute('role','button'); c.setAttribute('aria-label','Открыть отзыв');
-    var im = new Image(); im.src = 'img/reviews/' + f + '.webp'; im.alt = 'Отзыв с Авито'; im.loading = 'eager'; im.draggable = false;
-    c.appendChild(im); sphere.appendChild(c);
-    cards.push({el:c, x: rad*Math.cos(th), y: y, z: rad*Math.sin(th), src: im.src});
+    var c = document.createElement('div'); c.className = 'card'; c.tabIndex = 0; c.setAttribute('role','button'); c.setAttribute('aria-label','Отзыв: ' + r.n);
+    c.innerHTML = cardHTML(r, i); sphere.appendChild(c);
+    cards.push({el:c, x: rad*Math.cos(th), y: y, z: rad*Math.sin(th), i: i, vis: true});
   });
-  var R, cw;
+  var RX, RY, RZ, cw;
   function layout(){
-    var w = stage.clientWidth, h = stage.clientHeight;
-    R = Math.min(w, h) * (w < 600 ? .40 : .42);
-    cw = Math.max(130, Math.min(250, R * .62));
+    var w = stage.clientWidth, h = stage.clientHeight, small = w < 700;
+    cw = small ? Math.max(140, Math.min(175, w * .42)) : Math.max(190, Math.min(225, w * .14));
+    RY = h * .5 - cw * .3;
+    RX = small ? w * .5 - cw * .38 : Math.min(w * .5 - cw * .45, RY * 1.9);
+    RZ = Math.max(RX, RY);
     sphere.style.setProperty('--cw', cw + 'px');
   }
   layout(); addEventListener('resize', layout);
-  var ax = -0.25, ay = 0, vx = 0, vy = reduce ? 0 : 0.0035, hover = false;
+  // rotation matrix, row-major 3x3
+  var M = [1,0,0, 0,1,0, 0,0,1];
+  function mul(A, B){ var C = new Array(9); for(var r=0;r<3;r++) for(var c=0;c<3;c++) C[r*3+c] = A[r*3]*B[c] + A[r*3+1]*B[3+c] + A[r*3+2]*B[6+c]; return C; }
+  function rotY(a){ var c = Math.cos(a), s = Math.sin(a); return [c,0,s, 0,1,0, -s,0,c]; }
+  function rotX(a){ var c = Math.cos(a), s = Math.sin(a); return [1,0,0, 0,c,-s, 0,s,c]; }
+  function ortho(){ // keep M a clean rotation over time
+    var a = [M[0],M[3],M[6]], b = [M[1],M[4],M[7]];
+    var la = Math.hypot(a[0],a[1],a[2]); a = a.map(function(v){ return v/la; });
+    var d = a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; b = [b[0]-d*a[0], b[1]-d*a[1], b[2]-d*a[2]];
+    var lb = Math.hypot(b[0],b[1],b[2]); b = b.map(function(v){ return v/lb; });
+    var c = [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+    M = [a[0],b[0],c[0], a[1],b[1],c[1], a[2],b[2],c[2]];
+  }
+  M = mul(rotX(-0.18), M);
   function render(){
-    var cx = Math.cos(ax), sx = Math.sin(ax), cy = Math.cos(ay), sy = Math.sin(ay);
     cards.forEach(function(c){
-      var x1 = c.x*cy + c.z*sy, z1 = -c.x*sy + c.z*cy;
-      var y2 = c.y*cx - z1*sx, z2 = c.y*sx + z1*cx;
-      var s = .55 + (z2 + 1) * .3;
-      c.el.style.transform = 'translate3d(' + (x1*R) + 'px,' + (y2*R) + 'px,' + (z2*R) + 'px) translateY(-50%) scale(' + s.toFixed(3) + ')';
-      c.el.style.opacity = (0.12 + Math.max(0, (z2 + .35) / 1.35) * .88).toFixed(3);
-      c.el.style.zIndex = Math.round((z2 + 1) * 100);
-      c.el.style.pointerEvents = z2 > -0.1 ? 'auto' : 'none';
+      var x = M[0]*c.x + M[1]*c.y + M[2]*c.z, y = M[3]*c.x + M[4]*c.y + M[5]*c.z, z = M[6]*c.x + M[7]*c.y + M[8]*c.z;
+      var vis = z > -0.25;
+      if(vis !== c.vis){ c.vis = vis; c.el.style.visibility = vis ? '' : 'hidden'; }
+      if(!vis) return;
+      var s = .42 + (z + 1) * .32;
+      c.el.style.transform = 'translate3d(' + (x*RX).toFixed(1) + 'px,' + (y*RY).toFixed(1) + 'px,' + (z*RZ*.6).toFixed(1) + 'px) translateY(-50%) scale(' + s.toFixed(3) + ')';
+      var o = Math.min(1, Math.max(0, (z + .25) / 1.1)); c.el.style.opacity = (o * o).toFixed(3);
+      c.el.style.zIndex = Math.round((z + 1) * 100);
     });
   }
-  var dragging = false, lx = 0, ly = 0, moved = 0;
-  stage.addEventListener('pointerdown', function(e){ dragging = true; moved = 0; lx = e.clientX; ly = e.clientY; stage.classList.add('drag'); });
-  addEventListener('pointermove', function(e){ if(!dragging) return; var dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
-    vy = dx * 0.005; vx = -dy * 0.005; ay += vy; ax += vx; });
-  addEventListener('pointerup', function(){ dragging = false; stage.classList.remove('drag'); });
-  stage.addEventListener('pointerenter', function(){ hover = true; });
+  var dragging = false, lx = 0, ly = 0, moved = 0, wx = 0, wy = 0, hover = false, frame = 0, pid = null;
+  var K = 0.0042;
+  stage.addEventListener('pointerdown', function(e){ dragging = true; pid = e.pointerId; moved = 0; lx = e.clientX; ly = e.clientY; wx = wy = 0; stage.classList.add('drag'); });
+  addEventListener('pointermove', function(e){ if(!dragging || e.pointerId !== pid) return;
+    var dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+    wy = dx * K; wx = -dy * K; M = mul(rotX(wx), mul(rotY(wy), M)); });
+  function endDrag(){ dragging = false; pid = null; stage.classList.remove('drag'); }
+  addEventListener('pointerup', endDrag); addEventListener('pointercancel', endDrag);
+  stage.addEventListener('pointerenter', function(e){ if(e.pointerType === 'mouse') hover = true; });
   stage.addEventListener('pointerleave', function(){ hover = false; });
+  var stageOn = true;
+  new IntersectionObserver(function(es){ stageOn = es[0].isIntersecting; }).observe(stage);
   function spin(){
+    requestAnimationFrame(spin);
+    if(!stageOn) return;
     if(!dragging){
-      ay += vy; ax += vx;
-      vx *= .95; ax += (-0.25 - ax) * .01;
-      var base = hover ? 0.0012 : 0.0035;
-      if(reduce) base = 0;
-      vy += (base * Math.sign(vy || 1) - vy) * .03;
+      var base = reduce ? 0 : (hover ? 0.0008 : 0.0026);
+      wy += (base - wy) * .025; wx *= .95;
+      M = mul(rotX(wx), mul(rotY(wy), M));
     }
-    render(); requestAnimationFrame(spin);
+    if(++frame % 120 === 0) ortho();
+    render();
   }
-  spin();
+  render(); spin();
 
-  // lightbox
-  var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
-  function openLb(src){ lbImg.src = src; lb.hidden = false; document.getElementById('lbClose').focus(); }
-  function closeLb(){ lb.hidden = true; }
+  // lightbox with the full review
+  var lb = document.getElementById('lightbox'), lbCard = document.getElementById('lbCard'), lastFocus = null;
+  function openLb(i){ lastFocus = document.activeElement; lbCard.innerHTML = cardHTML(REV[i], i); lb.hidden = false; document.getElementById('lbClose').focus(); }
+  function closeLb(){ if(lb.hidden) return; lb.hidden = true; if(lastFocus) lastFocus.focus(); }
   cards.forEach(function(c){
-    c.el.addEventListener('click', function(){ if(moved < 8) openLb(c.src); });
-    c.el.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLb(c.src); } });
+    c.el.addEventListener('click', function(){ if(moved < 8) openLb(c.i); });
+    c.el.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLb(c.i); } });
   });
-  lb.addEventListener('click', function(e){ if(e.target !== lbImg) closeLb(); });
+  lb.addEventListener('click', function(e){ if(!lbCard.contains(e.target)) closeLb(); });
   addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLb(); });
+
+  // scroll progress line
+  var bar = document.getElementById('progress');
+  function onProg(){ var m = document.documentElement.scrollHeight - innerHeight; bar.style.transform = 'scaleX(' + (m > 0 ? scrollY / m : 0).toFixed(4) + ')'; }
+  addEventListener('scroll', onProg, {passive:true}); addEventListener('resize', onProg); onProg();
+
+  // active section in nav
+  var navLinks = {}; document.querySelectorAll('.links a').forEach(function(a){ navLinks[a.getAttribute('href').slice(1)] = a; });
+  var navIo = new IntersectionObserver(function(es){ es.forEach(function(e){ var a = navLinks[e.target.id]; if(a) a.classList.toggle('on', e.isIntersecting); }); }, {rootMargin:'-45% 0px -50% 0px'});
+  Object.keys(navLinks).forEach(function(id){ var el = document.getElementById(id); if(el) navIo.observe(el); });
+
+  // headings rise word by word; rules and the 3% outline draw in when seen
+  var seen = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); seen.unobserve(e.target); } }); }, {rootMargin:'0px 0px -12% 0px'});
+  if(!reduce){
+    document.querySelectorAll('.head h2, .final h2, .consign h2').forEach(function(h){
+      var words = h.textContent.trim().split(/\s+/);
+      h.innerHTML = words.map(function(w, i){ return '<span class="w" style="--i:' + i + '">' + esc(w) + '</span>'; }).join(' ');
+      h.classList.add('split'); seen.observe(h);
+    });
+    document.querySelectorAll('.rule, .consign').forEach(function(el){ seen.observe(el); });
+  } else { document.querySelectorAll('.rule, .consign').forEach(function(el){ el.classList.add('in'); }); }
+
+  // soft light that follows the cursor on cards; magnetic main buttons
+  if(fine && !reduce){
+    document.querySelectorAll('.spot').forEach(function(el){
+      el.addEventListener('pointermove', function(e){ var r = el.getBoundingClientRect(); el.style.setProperty('--mx', (e.clientX - r.left) + 'px'); el.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
+    });
+    document.querySelectorAll('.btn-primary:not(.btn-sm)').forEach(function(b){
+      b.addEventListener('pointermove', function(e){ var r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width/2) * .18).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height/2) * .3).toFixed(1) + 'px)'; });
+      b.addEventListener('pointerleave', function(){ b.style.transform = ''; });
+    });
+  }
 
   // copy handle
   var ch = document.getElementById('copyHandle'), lbl = document.getElementById('copyLbl');
