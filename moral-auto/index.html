@@ -261,6 +261,14 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .rows div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-top:1px solid var(--line);font-size:15px}
 .rows dt{color:var(--muted)}.rows dd{margin:0;font:500 15px/1.3 var(--mono);text-align:right}
 .calc-note{font-size:13px;color:var(--muted);line-height:1.5}
+.calc-hint{margin:-8px 0 0;font-size:13px;color:var(--muted)}
+.money{display:flex;align-items:center;border:1px solid var(--line);border-radius:14px;padding:0 16px;transition:border-color .25s,box-shadow .25s}
+.money:focus-within{border-color:var(--neon);box-shadow:0 0 18px rgba(95,184,255,.25)}
+.money input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--fg);font:600 20px/1 var(--mono);padding:14px 0;font-variant-numeric:tabular-nums}
+.money span{font:500 18px/1 var(--mono);color:var(--neon-hot)}
+.rate{display:inline-flex;align-items:center;gap:10px;font:400 12px/1.4 var(--mono);letter-spacing:.04em;color:var(--muted)}
+.rate i{flex:none;width:7px;height:7px;border-radius:50%;background:#8d9ab0}
+.rate.live i{background:#3ddc97;box-shadow:0 0 10px #3ddc97;animation:hlpulse 2s ease-in-out infinite}
 
 /* faq */
 .faq{display:grid;gap:10px;max-width:900px}
@@ -446,7 +454,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="head reveal">
         <span class="eyebrow">Калькулятор</span>
         <h2>Сколько стоит под ключ</h2>
-        <p>Примерный расчёт за минуту. Точную сумму под конкретную машину посчитает Кирилл.</p>
+        <p>Курс валют подтягиваем с сайта ЦБ каждый день, ставки пошлины, сбора и утильсбора действуют на 2026 год. Точную сумму под конкретную машину посчитает Кирилл.</p>
       </div>
       <div class="calc">
         <form class="calc-form" id="calcForm" onsubmit="return false">
@@ -458,28 +466,31 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
               <input type="radio" name="c" id="c-us" value="us"><label for="c-us">США</label>
             </div>
           </div>
-          <div class="fld"><label for="cPrice">Цена автомобиля в стране покупки <output id="oPrice"></output></label>
-            <input type="range" id="cPrice" min="500000" max="20000000" step="50000" value="3500000"></div>
+          <div class="fld"><label for="cPriceN">Цена в стране покупки <output id="oPrice"></output></label>
+            <div class="money"><input type="text" inputmode="numeric" id="cPriceN" autocomplete="off" aria-label="Цена в валюте страны"><span id="oCur">₩</span></div>
+            <input type="range" id="cPrice" min="0" max="1000" step="1" value="300" aria-label="Цена, ползунок"></div>
           <div class="fld"><span class="lbl">Возраст</span>
             <div class="chips">
               <input type="radio" name="a" id="a-0" value="0"><label for="a-0">до 3 лет</label>
               <input type="radio" name="a" id="a-1" value="1" checked><label for="a-1">3–5 лет</label>
-              <input type="radio" name="a" id="a-2" value="2"><label for="a-2">старше 5</label>
+              <input type="radio" name="a" id="a-2" value="2"><label for="a-2">старше 5 лет</label>
             </div>
           </div>
           <div class="fld"><label for="cEng">Объём двигателя <output id="oEng"></output></label>
             <input type="range" id="cEng" min="1" max="5" step="0.1" value="2"></div>
           <div class="fld"><label for="cHp">Мощность <output id="oHp"></output></label>
-            <input type="range" id="cHp" min="70" max="600" step="5" value="150"></div>
+            <input type="range" id="cHp" min="70" max="650" step="5" value="150"></div>
+          <p class="calc-hint">Электромобили и гибриды считаются по своим правилам, их посчитает Кирилл.</p>
         </form>
         <aside class="calc-out" aria-live="polite">
           <span class="eyebrow">Машина и таможня, примерно</span>
+          <span class="rate" id="oRate"><i></i><span>Загружаем курс ЦБ…</span></span>
           <div class="total" id="oTotal">0 ₽</div>
           <dl class="rows">
             <div><dt>Автомобиль</dt><dd id="oCar"></dd></div>
             <div><dt>Доставка до Москвы</dt><dd>обсудим лично</dd></div>
             <div><dt>Таможенная пошлина</dt><dd id="oDuty"></dd></div>
-            <div><dt>Таможенное оформление</dt><dd id="oFee"></dd></div>
+            <div><dt>Таможенный сбор</dt><dd id="oFee"></dd></div>
             <div><dt>Утильсбор</dt><dd id="oUtil"></dd></div>
           </dl>
           <p class="calc-note" id="oNote"></p>
@@ -946,43 +957,86 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     car.dataset.t = 'translate(0 0)'; build('kr'); requestAnimationFrame(loop);
   })();
 
-  // turnkey calculator (typical rates; exact figures are confirmed per car)
+  // turnkey calculator: live CBR rates + 2026 duty, fee and recycling-fee tables
   (function(){
-    var CFG = {
-      eur: 92,                                                       // ₽ за €, обновить при запуске
-      under3: [[8500,.54,2.5],[16700,.48,3.5],[42300,.48,5.5],[84500,.48,7.5],[169000,.48,15],[Infinity,.48,20]], // до € стоимости: % и минимум €/см³
+    var RULES = {
+      // ЕЭК №107: до 3 лет — % от стоимости, но не меньше €/см³ (по стоимости в €)
+      under3: [[8500,.54,2.5],[16700,.48,3.5],[42300,.48,5.5],[84500,.48,7.5],[169000,.48,15],[Infinity,.48,20]],
       y3to5: [[1000,1.5],[1500,1.7],[1800,2.5],[2300,2.7],[3000,3],[Infinity,3.6]],   // €/см³
       over5: [[1000,3],[1500,3.2],[1800,3.5],[2300,4.8],[3000,5],[Infinity,5.7]],
-      fee: [[200000,1067],[450000,2134],[1200000,4269],[2700000,11746],[4200000,16524],[5500000,21344],[7000000,27540],[Infinity,30000]],
-      util: [3400, 5200]                                              // льготный утильсбор до 160 л.с.: до 3 лет / старше
+      // ПП №1638, с 01.01.2026: таможенная стоимость ₽ → сбор ₽
+      fee: [[200000,1231],[450000,2462],[1200000,4924],[2700000,13541],[4200000,18465],[5500000,21344],[10000000,49240],[Infinity,73860]],
+      // утильсбор 2026: льготный до 160 л.с. и до 3 л; иначе по объёму и мощности [до 3 лет, старше 3]
+      utilLow: [3400, 5200],
+      utilHp: [190,220,250,280,310,340,370,400,430,460,500,Infinity],
+      util: {
+        2:   [[900000,1492800],[952800,1584000],[1010400,1677600],[1142400,1838400],[1291200,2011200],[1459200,2203200],[1663200,2412000],[1896000,2640000],[2160000,2892000],[2464800,3168000],[2808000,3468000],[3201600,3796800]],
+        3:   [[2306800,3456000],[2364000,3501600],[2402400,3552000],[2520000,3660000],[2620800,3770400],[2726400,3873600],[2834400,3981600],[2949600,4094400],[3067200,4209600],[3189600,4327200],[3316800,4447200],[3448800,4572000]],
+        3.5: [[2635200,4000800],[2688000,4044000],[2743200,4087200],[2810400,4144800],[2880000,4248000],[3038400,4356000],[3206400,4485600],[3384000,4620000],[3568800,4759200],[3765600,4900800],[3972000,5049600],[4190400,5200800]],
+        9:   [[3345600,4389600],[3403200,4456800],[3460800,4524000],[3530400,4627200],[3600000,4732800],[3727200,4992000],[3857600,5268000],[3993600,5558400],[4132800,5863200],[4276800,6187200],[4425600,6528000],[4581600,6885600]]
+      },
+      utilLow3: {3.5:[2584000,3956200], 9:[3290600,4325800]}           // свыше 3 л при мощности до 160 л.с.
+    };
+    // fallback rates, used only if cbr-xml-daily.ru is unreachable
+    var RATES = {EUR:92, USD:80, CNY:11.2, KRW:.058}, rateDate = null, live = false;
+    var CUR = {
+      kr: {code:'KRW', sym:'₩', min:3e6,  max:250e6, step:1e6,  def:40e6},
+      cn: {code:'CNY', sym:'¥', min:20e3, max:2.5e6, step:5e3,  def:250e3},
+      eu: {code:'EUR', sym:'€', min:3e3,  max:300e3, step:500,  def:35e3},
+      us: {code:'USD', sym:'$', min:3e3,  max:300e3, step:500,  def:40e3}
     };
     var f = document.getElementById('calcForm');
-    var price = document.getElementById('cPrice'), eng = document.getElementById('cEng'), hp = document.getElementById('cHp');
+    var range = document.getElementById('cPrice'), num = document.getElementById('cPriceN'), eng = document.getElementById('cEng'), hp = document.getElementById('cHp');
     var o = function(id){ return document.getElementById(id); };
-    var rub = function(n){ return Math.round(n).toLocaleString('ru-RU').replace(/,/g,' ') + ' ₽'; };
+    var grp = function(n){ return Math.round(n).toLocaleString('ru-RU').replace(/[\s,]/g,' '); };
+    var rub = function(n){ return grp(n) + ' ₽'; };
     var pick = function(tab, v){ for(var i=0;i<tab.length;i++) if(v <= tab[i][0]) return tab[i]; };
-    var shown = 0, anim = null;
+    var country = function(){ return f.querySelector('[name=c]:checked').value; };
+    var price = CUR.kr.def, shown = 0, anim = null;
+    // slider is logarithmic so cheap and expensive cars both get fine control
+    function toSlider(v, c){ return Math.round(1000 * Math.log(v / c.min) / Math.log(c.max / c.min)); }
+    function fromSlider(t, c){ var v = c.min * Math.pow(c.max / c.min, t / 1000); return Math.round(v / c.step) * c.step; }
     function fill(r){ r.style.setProperty('--v', ((r.value - r.min) / (r.max - r.min) * 100) + '%'); }
+    function setCountry(){ var c = CUR[country()]; price = c.def; o('oCur').textContent = c.sym; num.value = grp(price); range.value = toSlider(price, c); }
+    function utilFee(cc, H, age){
+      var old = age === 0 ? 0 : 1, l = cc / 1000;
+      if(H <= 160 && l <= 3) return RULES.utilLow[old];
+      var band = l <= 2 ? 2 : l <= 3 ? 3 : l <= 3.5 ? 3.5 : 9;
+      if(H <= 160) return RULES.utilLow3[band][old];
+      for(var i=0;i<RULES.utilHp.length;i++) if(H <= RULES.utilHp[i]) return RULES.util[band][i][old];
+    }
+    function showRate(){
+      var c = CUR[country()], r = o('oRate');
+      r.classList.toggle('live', live);
+      var cur = c.code === 'KRW' ? '1000 ₩ = ' + (RATES.KRW * 1000).toFixed(2).replace('.', ',') + ' ₽' : '1 ' + c.sym + ' = ' + RATES[c.code].toFixed(2).replace('.', ',') + ' ₽';
+      var eur = c.code === 'EUR' ? '' : ' · 1 € = ' + RATES.EUR.toFixed(2).replace('.', ',') + ' ₽';
+      r.querySelector('span').textContent = (live ? 'Курс ЦБ на ' + rateDate : 'Курс ЦБ (примерный)') + ': ' + cur + eur;
+    }
     function calc(){
-      [price, eng, hp].forEach(fill);
-      var c = f.querySelector('[name=c]:checked').value, age = +f.querySelector('[name=a]:checked').value;
-      var P = +price.value, cc = Math.round(+eng.value * 1000), H = +hp.value, pe = P / CFG.eur, duty;
-      if(age === 0){ var t = pick(CFG.under3, pe); duty = Math.max(pe * t[1], cc * t[2]) * CFG.eur; }
-      else duty = cc * pick(age === 1 ? CFG.y3to5 : CFG.over5, cc)[1] * CFG.eur;
-      var fee = pick(CFG.fee, P)[1];
-      var util = (H <= 160 && cc <= 3000) ? CFG.util[age === 0 ? 0 : 1] : null;
-      var total = P + duty + fee + (util || 0);
-      o('oPrice').textContent = rub(P); o('oEng').textContent = (+eng.value).toFixed(1) + ' л'; o('oHp').textContent = H + ' л.с.';
-      o('oCar').textContent = rub(P); o('oDuty').textContent = rub(duty); o('oFee').textContent = rub(fee);
-      o('oUtil').textContent = util === null ? 'считаем отдельно' : rub(util);
-      o('oNote').textContent = (util === null ? 'Для машин мощнее 160 л.с. утильсбор считается по повышенной ставке и в итог не включён. ' : '') + 'Расчёт по типовым ставкам и курсу ' + CFG.eur + ' ₽ за €, без доставки. Доставку, сроки и точную сумму обсудим лично.';
-      var cn = {kr:'Корея', cn:'Китай', eu:'Европа', us:'США'}[c], ag = ['до 3 лет','3–5 лет','старше 5 лет'][age];
-      o('calcSend').href = 'https://t.me/imoscowbear?text=' + encodeURIComponent('Здравствуйте! Хочу расчёт под ключ: ' + cn + ', цена ' + rub(P) + ', ' + ag + ', ' + (+eng.value).toFixed(1) + ' л, ' + H + ' л.с. На сайте вышло примерно ' + rub(total) + ' без доставки.');
-      // count the total to its new value
+      [range, eng, hp].forEach(fill);
+      var id = country(), c = CUR[id], age = +f.querySelector('[name=a]:checked').value;
+      var P = price * RATES[c.code], cc = Math.round(+eng.value * 1000), H = +hp.value, pe = P / RATES.EUR, duty;
+      if(age === 0){ var t = pick(RULES.under3, pe); duty = Math.max(pe * t[1], cc * t[2]) * RATES.EUR; }
+      else duty = cc * pick(age === 1 ? RULES.y3to5 : RULES.over5, cc)[1] * RATES.EUR;
+      var fee = pick(RULES.fee, P)[1], util = utilFee(cc, H, age), total = P + duty + fee + util;
+      o('oPrice').textContent = '≈ ' + rub(P); o('oEng').textContent = (+eng.value).toFixed(1) + ' л'; o('oHp').textContent = H + ' л.с.';
+      o('oCar').textContent = rub(P); o('oDuty').textContent = rub(duty); o('oFee').textContent = rub(fee); o('oUtil').textContent = rub(util);
+      o('oNote').textContent = (H > 160 ? 'Мощнее 160 л.с. утильсбор считается по полной ставке, поэтому он такой большой. ' : '') + 'Без доставки и услуг: их, сроки и точную сумму обсудим лично.';
+      showRate();
+      var cn = {kr:'Корея', cn:'Китай', eu:'Европа', us:'США'}[id], ag = ['до 3 лет','3–5 лет','старше 5 лет'][age];
+      o('calcSend').href = 'https://t.me/imoscowbear?text=' + encodeURIComponent('Здравствуйте! Хочу расчёт под ключ: ' + cn + ', цена ' + grp(price) + ' ' + c.sym + ', ' + ag + ', ' + (+eng.value).toFixed(1) + ' л, ' + H + ' л.с. На сайте вышло примерно ' + rub(total) + ' без доставки.');
       var from = shown, to = total, st = performance.now(); cancelAnimationFrame(anim);
       (function step(n){ var q = reduce ? 1 : Math.min(1, (n - st) / 500); shown = from + (to - from) * (1 - Math.pow(1 - q, 3)); o('oTotal').textContent = rub(shown); if(q < 1) anim = requestAnimationFrame(step); })(st);
     }
-    f.addEventListener('input', calc); f.addEventListener('change', calc); calc();
+    f.addEventListener('change', function(e){ if(e.target.name === 'c') setCountry(); calc(); });
+    range.addEventListener('input', function(){ price = fromSlider(+range.value, CUR[country()]); num.value = grp(price); calc(); });
+    num.addEventListener('input', function(){ var v = +num.value.replace(/\D/g, ''); if(!v) return; price = v; var p = num.selectionStart, l0 = num.value.length; num.value = grp(v); try{ num.setSelectionRange(p + num.value.length - l0, p + num.value.length - l0); }catch(e){} var c = CUR[country()]; range.value = Math.max(0, Math.min(1000, toSlider(Math.max(v, c.min), c))); calc(); });
+    [eng, hp].forEach(function(r){ r.addEventListener('input', calc); });
+    setCountry(); calc();
+    fetch('https://www.cbr-xml-daily.ru/daily_json.js').then(function(r){ return r.json(); }).then(function(d){
+      var v = d.Valute; ['EUR','USD','CNY','KRW'].forEach(function(k){ if(v[k]) RATES[k] = v[k].Value / v[k].Nominal; });
+      var dt = new Date(d.Date); rateDate = ('0' + dt.getDate()).slice(-2) + '.' + ('0' + (dt.getMonth() + 1)).slice(-2) + '.' + dt.getFullYear(); live = true; calc();
+    }).catch(function(){ showRate(); });
   })();
 
   // scroll progress line
