@@ -2,6 +2,12 @@
 <title>MORAL AUTO</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="MORAL AUTO: привоз автомобилей из Европы, США, Китая и Кореи под ключ. Подбор, таможня, учёт, комиссионная продажа.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MORAL AUTO — привоз автомобилей под ключ">
+<meta property="og:description" content="Корея, Китай, Европа, США. Подбор, проверка, таможня, учёт и комиссионная продажа.">
+<meta property="og:image" content="https://moralauto.ru/img/og.jpg">
+<meta property="og:url" content="https://moralauto.ru/">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -164,7 +170,7 @@ section{padding-block:clamp(72px,10vw,130px)}
 .sold-more{flex:0 0 220px;scroll-snap-align:start;border:1px dashed rgba(95,184,255,.35);border-radius:22px;display:grid;place-content:center;justify-items:center;gap:16px;text-align:center;color:var(--muted);font-size:15px;line-height:1.4;transition:color .3s,border-color .3s,box-shadow .3s}
 .sold-more:hover{color:var(--neon-hot);border-color:rgba(95,184,255,.7);box-shadow:0 0 30px rgba(31,116,255,.2) inset}
 @media(max-width:760px){.sold-nav{display:none}.sold-card{flex-basis:80%}.sold-more{flex-basis:60%}}
-.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.reels{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .reel{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:9/16;max-width:100%;background:var(--bg-2);border:1px solid var(--line);cursor:pointer}
 .reel video{width:100%;height:100%;object-fit:cover;display:block}
 .reel .cap{position:absolute;left:0;right:0;bottom:0;padding:60px 20px 20px;background:linear-gradient(0deg,rgba(4,6,10,.92),transparent);display:grid;gap:4px;pointer-events:none;transition:opacity .3s}
@@ -284,6 +290,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
 /* reel pause state */
 .reel.on.paused .play{opacity:1}
+/* handover reel: a slow light runs around the frame */
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+.reel-feat{border-color:transparent;isolation:isolate}
+.reel-feat::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:conic-gradient(from var(--ang),rgba(95,184,255,.15) 0deg,var(--neon-hot) 50deg,rgba(95,184,255,.15) 110deg,rgba(95,184,255,.15) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinb 6s linear infinite;z-index:2;pointer-events:none}
+@keyframes spinb{to{--ang:360deg}}
+.reel-feat{box-shadow:0 0 50px rgba(31,116,255,.22)}
+.reel-feat .tag{background:rgba(31,116,255,.85);border-color:var(--neon-hot);color:#fff}
 
 /* reviews sphere */
 .reviews{overflow:hidden}
@@ -316,6 +329,12 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .final p{color:var(--muted);max-width:560px}
 .who{display:flex;align-items:center;gap:16px;text-align:left;padding:14px 22px 14px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg-2)}
 .who .kav{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:700 20px/1 var(--display);color:#fff;background:linear-gradient(135deg,#1f74ff,#5fb8ff);box-shadow:0 0 0 3px var(--bg-2),0 0 0 4px var(--neon),0 0 24px rgba(95,184,255,.6)}
+.socials{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px}
+.soc{display:inline-flex;align-items:baseline;gap:10px;padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--fg);font:600 14px/1 var(--body);cursor:pointer;text-decoration:none;transition:border-color .3s,box-shadow .3s,color .3s}
+.soc span{font:400 12px/1 var(--mono);color:var(--muted);letter-spacing:.03em}
+.soc:hover{border-color:rgba(95,184,255,.6);box-shadow:0 0 22px rgba(31,116,255,.25)}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.meta-note{flex-basis:100%;font-size:11px;color:#5d6a80}
 .who b{display:block;font:700 18px/1.2 var(--display)}
 .who span{color:var(--muted);font-size:14px}
 .handle{display:inline-flex;align-items:center;gap:10px;font:500 15px/1 var(--mono);color:var(--muted);border:1px dashed var(--line);padding:10px 14px;border-radius:10px;background:none;cursor:pointer}
@@ -543,9 +562,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="head reveal">
         <span class="eyebrow">Вживую</span>
         <h2>Машины в деталях</h2>
-        <p>Диагностика, обзоры и короткие ролики о машинах, которые проходят через нас. Нажмите, чтобы смотреть со звуком.</p>
+        <p>Выдачи, диагностика, обзоры и короткие ролики о машинах, которые проходят через нас. Нажмите, чтобы смотреть со звуком.</p>
       </div>
       <div class="reels">
+        <figure class="reel reel-feat reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-vydacha.mp4.jpg" src="video/reel-vydacha.mp4"></video><span class="tag">Выдача</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Mercedes-Benz для клиентки</b><span>Вручаем машину с бантом и ключами</span></figcaption></figure>
         <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-mercedes.mp4.jpg" src="video/reel-mercedes.mp4"></video><span class="tag">Диагностика</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Mercedes-Benz E-класс</b><span>Проверка на подъёмнике</span></figcaption></figure>
         <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-x2.mp4.jpg" src="video/reel-x2.mp4"></video><span class="tag">Обзор</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>BMW X2</b><span>Подробный обзор автомобиля</span></figcaption></figure>
         <figure class="reel reveal" style="margin:0"><video playsinline preload="none" poster="video/reel-rangerover.mp4.jpg" src="video/reel-rangerover.mp4"></video><span class="tag">Тренды</span><span class="play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><figcaption class="cap"><b>Range Rover</b><span>Короткий ролик в трендовом формате</span></figcaption></figure>
@@ -631,6 +651,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         Написать Кириллу
       </a>
       <button class="handle" id="copyHandle" type="button">@imoscowbear <span id="copyLbl">скопировать</span></button>
+      <div class="socials">
+        <a class="soc" href="https://www.avito.ru/user/05c79c2843f775a38d8938441a3ff1f7/profile" target="_blank" rel="noopener"><b>Авито</b><span>4,9 ★</span></a>
+        <a class="soc" href="https://www.instagram.com/moral_auto" target="_blank" rel="noopener"><b>Instagram*</b><span>@moral_auto</span></a>
+        <button class="soc" type="button" id="copyMax"><b>MAX</b><span id="maxLbl">+7 901 727-03-97</span></button>
+      </div>
     </div>
   </section>
 </main>
@@ -638,7 +663,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <footer>
   <div class="wrap">
     <span>© 2026 MORAL AUTO · Балашиха, Московская область</span>
-    <a href="https://www.avito.ru/brands/i122496660" target="_blank" rel="noopener">Мы на Авито</a>
+    <nav class="foot-links"><a href="https://www.avito.ru/user/05c79c2843f775a38d8938441a3ff1f7/profile" target="_blank" rel="noopener">Авито</a><a href="https://www.instagram.com/moral_auto" target="_blank" rel="noopener">Instagram*</a><a href="https://t.me/moral_auto" target="_blank" rel="noopener">Telegram-канал</a></nav>
+    <small class="meta-note">* Instagram принадлежит компании Meta, признанной экстремистской и запрещённой в России.</small>
   </div>
 </footer>
 
@@ -1072,6 +1098,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   }
 
   // copy handle
+  var cm = document.getElementById('copyMax'), ml = document.getElementById('maxLbl');
+  cm.addEventListener('click', function(){ var done = function(){ ml.textContent = 'номер скопирован, найдите в MAX'; setTimeout(function(){ ml.textContent = '+7 901 727-03-97'; }, 2600); }; if(navigator.clipboard) navigator.clipboard.writeText('+79017270397').then(done, done); else done(); });
   var ch = document.getElementById('copyHandle'), lbl = document.getElementById('copyLbl');
   ch.addEventListener('click', function(){
     var done = function(){ lbl.textContent = 'скопировано'; setTimeout(function(){ lbl.textContent = 'скопировать'; }, 1800); };
